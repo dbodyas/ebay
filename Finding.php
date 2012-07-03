@@ -59,7 +59,7 @@ class Finding {
         'findItemsByKeywords' => TRUE,
         'findItemsByProduct' => FALSE,
         'findItemsIneBayStores' => FALSE,
-        'getHistograms' => FALSE,
+        'getHistograms' => TRUE,
         'getSearchKeywordsRecommendation' => FALSE,
         'getVersion' => FALSE
     );
@@ -147,34 +147,67 @@ class Finding {
             return FALSE;
         }
         
-        // Call Options
-        $call_options_string = $this->_process_call_options($call_options);
-        if($call_options_string !== FALSE){
+        // aspectFilter
+        $result = $this->_process_aspectFilter($call_options);
+        if($result !== FALSE){
+
+            $request .= $result;
+        }
+        
+        // domainFilter
+        $result = $this->_process_domainFilter($call_options);
+        if($result !== FALSE){
+
+            $request .= $result;
+        }
+        
+        // itemFilter
             
-            $request .= $call_options_string;
+        // keywords (required)
+        $result = $this->_process_keywords($call_options);
+        if($result){
+            
+            $request .= $result;
             
         } else {
             
             return FALSE;
         }
         
-        // Call Options Only in this call
-        
-        // keywords
-        if(isset($call_options['keywords'])){
-            
-            $request .= '<keywords>'.$call_options['keywords'].'</keywords>';
-            
-        } else {
-            
-            $this->error['function'] = 'PROCESS CALL OPTIONS';
-            $this->error['message'] = 'keywords is required.';
-            return FALSE;
-        }
+        // outputSelector
         
         // Close Request
         $request .= "</findItemsByKeywordsRequest>\n";
-                
+                      
+        // Send Request
+        if($this->_send($call_options['url'], $call_options['headers'], $request)){
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+    
+    private function _getHistograms($call_options,$standard_options){
+        
+        // Open Request
+        $request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+        $request .= "<getHistogramsRequest xmlns=\"http://www.ebay.com/marketplace/search/v1/services\">";
+               
+        // categoryId
+       if(isset($call_options['categoryId'])){
+           
+           $request .= '<categoryId>'.$call_options['categoryId'].'</categoryId>';
+           
+       } else {
+           
+           $this->error['function'] = 'PROCESS CALL OPTIONS';
+           $this->error['message'] = 'categoryId is required.';
+           return FALSE;
+       }
+        
+        // Close Request
+        $request .= "</getHistogramsRequest>\n";
+                      
         // Send Request
         if($this->_send($call_options['url'], $call_options['headers'], $request)){
             return TRUE;
@@ -298,55 +331,82 @@ class Finding {
     }
     
     /**
-     * Process the call options
+     * Keyword Call Option
+     * @param array $call_options
+     * @return string|bool 
+     */
+    private function _process_keywords($call_options){
+        
+        if(isset($call_options['keywords'])){
+            
+            return '<keywords>'.$call_options['keywords'].'</keywords>';
+
+        } else {
+            
+            $this->error['function'] = 'KEYWORDS';
+            $this->error['message'] = ' keywords is a required field.';
+            return FALSE;
+        }
+    }
+    
+    /**
+     * aspectFilter Call Option
      * @access private
      * @param array $call_options
-     * @return mixed 
+     * @return string|bool 
      */
-    private  function _process_call_options($call_options){
+    private function _process_aspectFilter($call_options){
         
-        $call_options_string = '';
-        
-        if($call_options !== FALSE){
+        if(isset($call_options['aspectFilters'])){
             
-            if(is_array($call_options)){
+            $aspect_filter_string = '<aspectFilter>';
+            
+            foreach($call_options['aspectFilters'] as $aspectFilter){
                 
-                // aspectFilter
-                if(isset($call_options['aspectFilters'])){
+                $aspect_filter_string .= '<aspectName>'.$aspectFilter['aspectName'].'</aspectName>';
+                
+                foreach($aspectFilter['aspectValueNames'] as $aspectValueName){
                     
-                }
-                
-                // domainFilter
-                if(isset($call_options['domainFilters'])){
-                    
-                }
-                
-                // itemFilter
-                if(isset($call_options['itemFilters'])){
-                    
-                }
-                                
-                // outputSelector
-                if(isset($call_options['outputSelectors'])){
-                    
-                }
-                
-                return $call_options_string;
-                
-            } else {
-                
-                $this->error['function'] = 'PROCESS CALL OPTIONS';
-                $this->error['message'] = 'The call options are in a incorrect format.';
-                return FALSE;
+                    $aspect_filter_string .= '<aspectValueName>'.$aspectValueName.'</aspectValueName>';
+                }                
             }
+            
+            $aspect_filter_string .= '</aspectFilter>';
+            
+            return $aspect_filter_string;
             
         } else {
             
-            return $call_options_string;
+            return FALSE;
         }
     }
-
-
+    
+    /**
+     * domainFilter Call Option
+     * @access private
+     * @param array $call_options
+     * @return string|bool 
+     */
+    private function _process_domainFilter($call_options){
+        
+        if(isset($call_options['domainFilters'])){
+            
+            $domain_filter_string = '';
+            
+            foreach($call_options['domainFilters'] as $domainFilter){
+                $domain_filter_string .= '<domainFilter>';
+                $domain_filter_string .= '<domainName>'.$domainFilter['domainName'].'</domainName>';
+                $domain_filter_string .= '</domainFilter>';
+            }
+                       
+            return $domain_filter_string;
+            
+        } else {
+            
+            return FALSE;
+        }
+    }
+    
     /**
      * Builds and Validates Affiliate Options
      * @access private
