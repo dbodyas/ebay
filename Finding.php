@@ -120,8 +120,16 @@ class Finding {
         
         // Process Request
         $method_call = '_'.$call_options['call_type'];
-        $response = $this->$method_call($call_options,$standard_options);
         
+        if($standard_options === FALSE){
+            
+            $response = $this->$method_call($call_options);
+            
+        } else {
+            
+            $response = $this->$method_call($call_options,$standard_options);
+        }
+                
         return $response;
                     
     }
@@ -187,7 +195,13 @@ class Finding {
         }
     }
     
-    private function _getHistograms($call_options,$standard_options){
+    /**
+     * getHistograms Refeference Call
+     * @param array $call_options
+     * @param array $standard_options
+     * @return boolean 
+     */
+    private function _getHistograms($call_options){
         
         // Open Request
         $request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
