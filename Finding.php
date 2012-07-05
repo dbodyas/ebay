@@ -21,6 +21,7 @@ class Finding {
     private $categoryId = 0;
     private $productId = '';
     private $descriptionSearch = 1;
+    private $itemId = '';
     
     /**
      * Standard Options 
@@ -318,7 +319,7 @@ class Finding {
     }
     
     /**
-     * findItemsAdvanced Reference Call
+     * findItemsByCategory Reference Call
      * @access private
      * @return boolean 
      */
@@ -375,6 +376,71 @@ class Finding {
             return FALSE;
         }
     }
+    
+    /**
+     * findItemsByImage Reference Call
+     * @access private
+     * @return boolean 
+     */
+    private function _findItemsByImage(){
+        
+        // Open Request
+        $request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+        $request .= "<findItemsByImageRequest xmlns=\"http://www.ebay.com/marketplace/search/v1/services\">";
+        
+        // Standard Options
+        $request .= $this->_process_standard_options();
+        
+        // aspectFilter
+        $result = $this->_process_aspectFilter();
+        if($result !== FALSE){
+
+            $request .= $result;
+        }
+        
+        // categoryId
+        $result = $this->_process_categoryId();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+        // domainFilter
+        $result = $this->_process_domainFilter();
+        if($result !== FALSE){
+
+            $request .= $result;
+        }
+        
+        // itemFilter
+        $result = $this->_process_itemFilter();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+        // itemId
+        $result = $this->_process_itemId();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+        // outputSelector
+        $result = $this->_process_outputSelector();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+        // Close Request
+        $request .= "</findItemsByImageRequest>\n";
+        
+        echo $request;
+                      
+        // Send Request
+        if($this->_send($this->url, $this->headers, $request)){
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }   
     
     /**
      * Request creation for the finditemsByKeyword Finding APi
@@ -635,6 +701,17 @@ class Finding {
         }
         
         $this->itemFilters[] = $filter;
+        
+    }
+    
+    /**
+     * Adds a itemId to the Call Options
+     * @access public
+     * @param string $itemId 
+     */
+    public function add_itemId($itemId){
+        
+        $this->itemId = trim($itemId);
         
     }
     
@@ -972,6 +1049,23 @@ class Finding {
             return FALSE;
         }
         
+    }
+    
+    /**
+     * itemId Call Option
+     * @access private
+     * @return string|boolean 
+     */
+    private function _process_itemId(){
+        
+        if($this->itemId !== ''){
+            
+            return '<itemId>'.$this->itemId.'</itemId>';
+            
+        } else {
+            
+            return '';
+        }
     }
     
     /**
