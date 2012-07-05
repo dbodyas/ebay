@@ -8,6 +8,32 @@
  * @version 1.0 
  */
 class Finding {
+    
+    /**
+     * Call Options
+     */
+    private $call_type = 'findItemsByKeywords';
+    private $aspectFilters = array();
+    private $domainFilters = array();
+    private $itemFilters = array();
+    private $keywords = array();
+    private $outputSelectors = array();
+    private $categoryId = 0;
+    
+    /**
+     * Standard Options 
+     */
+    private $affiliate = array();
+    private $buyerPostalCode = '';
+    private $paginationInput = array();
+    private $sortOrder = array();
+    
+    /**
+     * Send Options
+     */
+    private $url = '';
+    private $headers = '';
+    
 
     /**
      * Error Report Array
@@ -91,26 +117,26 @@ class Finding {
      * @param bool $sandbox
      * @return mixed 
      */
-    public function search($call_options, $standard_options = FALSE, $sandbox = FALSE) {
+    public function search($standard_options = FALSE, $sandbox = FALSE) {
         
         // Check Call Options / Type
-        if($this->_check_call_type($call_options) == FALSE){
+        if($this->_check_call_type() == FALSE){
             return FALSE;
         }
         
         // API URL
         if ($sandbox) {
 
-            $call_options['url'] = $this->api_urls['finding']['sandbox'];
+            $this->url = $this->api_urls['finding']['sandbox'];
             
         } else {
 
-            $call_options['url'] = $this->api_urls['finding']['production'];
+            $this->url = $this->api_urls['finding']['production'];
         }
         
         // Headers
-        $call_options['headers'] = array(
-            'X-EBAY-SOA-OPERATION-NAME: '.$call_options['call_type'].'',
+        $this->headers = array(
+            'X-EBAY-SOA-OPERATION-NAME: '.$this->call_type.'',
             "X-EBAY-SOA-SERVICE-VERSION:1.3.0",
             "X-EBAY-SOA-GLOBAL-ID: EBAY-US",
             "X-EBAY-SOA-REQUEST-DATA-FORMAT: $this->request_format",
@@ -119,15 +145,15 @@ class Finding {
         );
         
         // Process Request
-        $method_call = '_'.$call_options['call_type'];
+        $method_call = '_'.$this->call_type;
         
         if($standard_options === FALSE){
             
-            $response = $this->$method_call($call_options);
+            $response = $this->$method_call();
             
         } else {
             
-            $response = $this->$method_call($call_options,$standard_options);
+            $response = $this->$method_call($standard_options);
         }
                 
         return $response;
@@ -138,7 +164,7 @@ class Finding {
      * Request creation for the finditemsByKeyword Finding APi
      * @return boolean 
      */
-    private function _findItemsByKeywords($call_options,$standard_options = FALSE){
+    private function _findItemsByKeywords($standard_options = FALSE){
         
         // Open Request
         $request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
@@ -156,27 +182,27 @@ class Finding {
         }
         
         // aspectFilter
-        $result = $this->_process_aspectFilter($call_options);
+        $result = $this->_process_aspectFilter();
         if($result !== FALSE){
 
             $request .= $result;
         }
         
         // domainFilter
-        $result = $this->_process_domainFilter($call_options);
+        $result = $this->_process_domainFilter();
         if($result !== FALSE){
 
             $request .= $result;
         }
         
         // itemFilter
-        $result = $this->_process_itemFilter($call_options);
+        $result = $this->_process_itemFilter();
         if($result !== FALSE){
             $request .= $result;
         }
             
         // keywords (required)
-        $result = $this->_process_keywords($call_options);
+        $result = $this->_process_keywords();
         if($result){
             
             $request .= $result;
@@ -187,7 +213,7 @@ class Finding {
         }
         
         // outputSelector
-        $result = $this->_process_outputSelector($call_options);
+        $result = $this->_process_outputSelector();
         if($result !== FALSE){
             $request .= $result;
         }
@@ -198,7 +224,7 @@ class Finding {
         echo $request;
                       
         // Send Request
-        if($this->_send($call_options['url'], $call_options['headers'], $request)){
+        if($this->_send($this->url, $this->headers, $request)){
             return TRUE;
         } else {
             return FALSE;
@@ -211,35 +237,144 @@ class Finding {
      * @param array $standard_options
      * @return boolean 
      */
-    private function _getHistograms($call_options){
+    private function _getHistograms(){
         
         // Open Request
         $request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
         $request .= "<getHistogramsRequest xmlns=\"http://www.ebay.com/marketplace/search/v1/services\">";
                
         // categoryId
-       if(isset($call_options['categoryId'])){
-           
-           $request .= '<categoryId>'.$call_options['categoryId'].'</categoryId>';
-           
-       } else {
-           
-           $this->error['function'] = 'PROCESS CALL OPTIONS';
-           $this->error['message'] = 'categoryId is required.';
-           return FALSE;
+       $result = $this->_process_categoryId();
+       if($result !== FALSE){
+           $request .= $result;
        }
         
         // Close Request
         $request .= "</getHistogramsRequest>\n";
                       
         // Send Request
-        if($this->_send($call_options['url'], $call_options['headers'], $request)){
+        if($this->_send($this->url, $this->headers, $request)){
             return TRUE;
         } else {
             return FALSE;
         }
     }
     
+    /**
+     * Configures the Finding Reference Call
+     * @param type $call_type 
+     */
+    public function call_type($call_type){
+        
+        $this->call_type = $call_type;
+    }
+    
+    /**
+     * Clears all Call Options
+     * @access public 
+     */
+    public function clear_call_options(){
+        
+        $this->aspectFilters = array();
+        $this->domainFilters = array();
+        $this->itemFilters = array();
+        $this->outputSelectors = array();
+    }
+    
+    /**
+     * Adds an aspectFilter for the next call.
+     * @access public
+     * @param array $aspectFilter 
+     */
+    public function add_aspectFilter($aspectName,$aspectValueName){
+        
+        $this->aspectFilters[] = array('aspectName'=>$aspectName,'aspectValueName'=>$aspectValueName);        
+    }
+    
+    /**
+     * Adds a domainFilter as a call option
+     * @access public
+     * @param string $domainName 
+     */
+    public function add_domainFilter($domainName){
+        
+        $this->domainFilters = $domainName;        
+    }
+    
+    /**
+     * Adds a itemFilter as a call option
+     * @access public
+     * @param string $name
+     * @param array|string $value
+     * @param string $paramName
+     * @param string $paramValue 
+     */
+    public function add_itemFilter($name,$value,$paramName = FALSE,$paramValue = FALSE){
+        
+        $filter['name'] = $name;
+        
+        if(is_array($value)){
+            $filter['value'] = $value;
+        } else {
+            $filter['value'] = array($value);
+        }
+        
+        if($paramName !== FALSE){
+            $filter['paramName'] = $paramName;
+            $filter['paramValue'] = $paramValue;
+        }
+        
+        $this->itemFilters[] = $filter;
+        
+    }
+    
+    /**
+     * Adds keywords to the call options
+     * @access public
+     * @param string|array $keywords 
+     */
+    public function add_keywords($keywords){
+        
+        if(is_array($keywords)){
+            
+            foreach($keywords as $keyword){
+                
+                $this->keywords[] = $keyword;
+            }
+            
+        } else {
+            
+            $this->keywords[] = $keywords;
+        }
+    }
+    
+    /**
+     * Adds a outputSelector as a call option
+     * @access public
+     * @param string|array $outputSelectorType 
+     */
+    public function add_outputSelector($outputSelectorType){
+        
+       if(is_array($outputSelectorType)){
+           
+           foreach($outputSelectorType as $type){
+               $this->outputSelectors[] = $type;
+           }
+       } else {
+           $this->outputSelectors[] = $outputSelectorType;
+       }
+        
+    }
+    
+    /**
+     * Adds categoryId to Call Options
+     * @param type $categoryId 
+     */
+    public function add_categoryId($categoryId){
+        
+        $this->categoryId = $categoryId;
+    }
+        
     /**
      * Processes and Creates the XML string for the standard options
      * @param array $standard_options 
@@ -355,15 +490,39 @@ class Finding {
     }
     
     /**
+     * categoryId Call Option
+     * @access private
+     * @return string|boolean 
+     */
+    private function _process_categoryId(){
+        
+        if($this->categoryId !== 0){
+            
+            $category_id_string = '<categoryId>'.$this->categoryId.'</categoryId>';
+            
+            return $category_id_string;
+            
+        } else {
+            
+            return FALSE;
+        }
+    }
+    
+    /**
      * Keyword Call Option
      * @param array $call_options
      * @return string|bool 
      */
-    private function _process_keywords($call_options){
+    private function _process_keywords(){
         
-        if(isset($call_options['keywords'])){
+        if(!empty($this->keywords)){
             
-            return '<keywords>'.$call_options['keywords'].'</keywords>';
+            $keywords = '';
+            foreach($this->keywords as $keyword){
+                $keywords .= $keyword.' ';
+            }
+            
+            return '<keywords>'.trim($keywords).'</keywords>';
 
         } else {
             
@@ -376,59 +535,51 @@ class Finding {
     /**
      * aspectFilter Call Option
      * @access private
-     * @param array $call_options
      * @return string|bool 
      */
-    private function _process_aspectFilter($call_options){
+    private function _process_aspectFilter(){
         
-        if(isset($call_options['aspectFilters'])){
+        if(!empty($this->aspectFilters)){
             
-            $aspect_filter_string = '<aspectFilter>';
+            $aspect_filter_string = '';
             
-            foreach($call_options['aspectFilters'] as $aspectFilter){
+            foreach($this->aspectFilters as $aspectFilter){
+                
+                $aspect_filter_string .= '<aspectFilter>';
                 
                 $aspect_filter_string .= '<aspectName>'.$aspectFilter['aspectName'].'</aspectName>';
                 
-                foreach($aspectFilter['aspectValueNames'] as $aspectValueName){
+                foreach($aspectFilter['aspectValueName'] as $value){
                     
-                    $aspect_filter_string .= '<aspectValueName>'.$aspectValueName.'</aspectValueName>';
-                }                
+                    $aspect_filter_string .= '<aspectValueName>'.$value.'</aspectValueName>';                    
+                }
+                
+                $aspect_filter_string .= '</aspectFilter>';
             }
-            
-            $aspect_filter_string .= '</aspectFilter>';
             
             return $aspect_filter_string;
             
         } else {
-            
             return FALSE;
-        }
+        }        
     }
     
     /**
      * domainFilter Call Option
      * @access private
-     * @param array $call_options
      * @return string|bool 
      */
-    private function _process_domainFilter($call_options){
+    private function _process_domainFilter(){
         
-        if(isset($call_options['domainFilters'])){
+        if(!empty($this->domainFilters)){
             
-            $domain_filter_string = '';
+            $domain_filter_string = '<domainFilter><domainName>'.$this->domainFilters.'</domainName></domainFilter>';
             
-            foreach($call_options['domainFilters'] as $domainFilter){
-                $domain_filter_string .= '<domainFilter>';
-                $domain_filter_string .= '<domainName>'.$domainFilter['domainName'].'</domainName>';
-                $domain_filter_string .= '</domainFilter>';
-            }
-                       
             return $domain_filter_string;
             
         } else {
-            
             return FALSE;
-        }
+        }        
     }
     
     /**
@@ -437,13 +588,13 @@ class Finding {
      * @param array $call_options
      * @return string|bool 
      */
-    private function _process_itemFilter($call_options){
+    private function _process_itemFilter(){
         
-        if(isset($call_options['itemFilters'])){
+        if(!empty($this->itemFilters)){
             
             $item_filter_string = '';
          
-            foreach($call_options['itemFilters'] as $itemFilter){
+            foreach($this->itemFilters as $itemFilter){
                 
                 $item_filter_string .= '<itemFilter>';
                 
@@ -457,7 +608,7 @@ class Finding {
                     $item_filter_string .= '<paramValue>'.$itemFilter['paramValue'].'</paramValue>';
                 }                
                 
-                foreach($itemFilter['values'] as $value){
+                foreach($itemFilter['value'] as $value){
                     
                     $item_filter_string .= '<value>'.$value.'</value>';
                 }
@@ -481,16 +632,15 @@ class Finding {
      * @param array $call_options
      * @return string|bool 
      */
-    private function _process_outputSelector($call_options){
+    private function _process_outputSelector(){
         
-        if(isset($call_options['outputSelectors'])){
+        if(!empty($this->outputSelectors)){
             
             $output_selector_string = '';
-            
-            foreach($call_options['outputSelectors'] as $outputSelector){
+
+            foreach($this->outputSelectors as $key=>$value){
                 
-                $output_selector_string = '<outputSelector>'.$outputSelector['outputSelectorType'].'</outputSelector>';
-                
+                $output_selector_string .= '<outputSelector>'.$value.'</outputSelector>';                
             }
             
             return $output_selector_string;
@@ -583,52 +733,30 @@ class Finding {
      * @param array $call_options
      * @return boolean 
      */
-    private function _check_call_type($call_options){
+    private function _check_call_type(){
         
-        // Check API Call Type
-        if(is_array($call_options))
-        {
-            // API Call Type
-            if(array_key_exists('call_type', $call_options)){
-                
-                // Call Type Valid
-                if(array_key_exists($call_options['call_type'], $this->valid_call_types)){
-                    
-                    // Implemented
-                    if(method_exists($this, '_'.$call_options['call_type'])){
-                        
-                        return TRUE;
-                        
-                    } else {
-                        
-                        // Error
-                        $this->error['function'] = 'SEARCH';
-                        $this->error['message'] = 'The call type '.$call_options['call_type'].' has not been implemented.';
-                        return FALSE;
-                        
-                    }
-                    
-                } else {
-                    
-                    // Error
-                    $this->error['function'] = 'SEARCH';
-                    $this->error['message'] = 'The call type '.$call_options['call_type'].' is not valid.';
-                    return FALSE;
-                }
-                
+        // Call Type Valid
+        if(array_key_exists($this->call_type, $this->valid_call_types)){
+
+            // Implemented
+            if(method_exists($this, '_'.$this->call_type)){
+
+                return TRUE;
+
             } else {
-                
+
                 // Error
                 $this->error['function'] = 'SEARCH';
-                $this->error['message'] = 'No API Call Type Specified.';
+                $this->error['message'] = 'The call type '.$this->call_type.' has not been implemented.';
                 return FALSE;
+
             }
-            
+
         } else {
-            
+
             // Error
             $this->error['function'] = 'SEARCH';
-            $this->error['message'] = 'No API Call options were specified or the options are in a incorrect format.';
+            $this->error['message'] = 'The call type '.$this->call_type.' is not valid.';
             return FALSE;
         }
     }
