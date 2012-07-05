@@ -5,7 +5,7 @@
  * @author Rick Earley <rick@earleyholdings.com>
  * @category Ebay API
  * @package Finding API
- * @version 1.0 
+ * @version v0.1b 
  */
 class Finding {
     
