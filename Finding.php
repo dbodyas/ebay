@@ -483,6 +483,23 @@ class Finding {
      */
     private function _process_outputSelector($call_options){
         
+        if(isset($call_options['outputSelectors'])){
+            
+            $output_selector_string = '';
+            
+            foreach($call_options['outputSelectors'] as $outputSelector){
+                
+                $output_selector_string = '<outputSelector>'.$outputSelector['outputSelectorType'].'</outputSelector>';
+                
+            }
+            
+            return $output_selector_string;
+        
+            
+        } else {
+            
+            return FALSE;
+        }
     }
     
     /**
