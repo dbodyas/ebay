@@ -318,6 +318,65 @@ class Finding {
     }
     
     /**
+     * findItemsAdvanced Reference Call
+     * @access private
+     * @return boolean 
+     */
+    private function _findItemsByCategory(){
+        
+        // Open Request
+        $request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+        $request .= "<findItemsByCategoryRequest xmlns=\"http://www.ebay.com/marketplace/search/v1/services\">";
+        
+        // Standard Options
+        $request .= $this->_process_standard_options();
+        
+        // aspectFilter
+        $result = $this->_process_aspectFilter();
+        if($result !== FALSE){
+
+            $request .= $result;
+        }
+        
+        // categoryId
+        $result = $this->_process_categoryId();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+        // domainFilter
+        $result = $this->_process_domainFilter();
+        if($result !== FALSE){
+
+            $request .= $result;
+        }
+        
+        // itemFilter
+        $result = $this->_process_itemFilter();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+        // outputSelector
+        $result = $this->_process_outputSelector();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+        // Close Request
+        $request .= "</findItemsByCategoryRequest>\n";
+        
+        echo $request;
+                      
+        // Send Request
+        if($this->_send($this->url, $this->headers, $request)){
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+    
+    /**
      * Request creation for the finditemsByKeyword Finding APi
      * @return boolean 
      */
