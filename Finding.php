@@ -20,6 +20,7 @@ class Finding {
     private $outputSelectors = array();
     private $categoryId = 0;
     private $productId = '';
+    private $descriptionSearch = 1;
     
     /**
      * Standard Options 
@@ -173,7 +174,7 @@ class Finding {
         
         // Open Request
         $request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
-        $request .= "<findItemsByKeywordsRequest xmlns=\"http://www.ebay.com/marketplace/search/v1/services\">";
+        $request .= "<findCompletedItemsRequest xmlns=\"http://www.ebay.com/marketplace/search/v1/services\">";
         
         // Standard Options
         $request .= $this->_process_standard_options();
@@ -228,7 +229,83 @@ class Finding {
         }
         
         // Close Request
-        $request .= "</findItemsByKeywordsRequest>\n";
+        $request .= "</findCompletedItemsRequest>\n";
+        
+        echo $request;
+                      
+        // Send Request
+        if($this->_send($this->url, $this->headers, $request)){
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+    
+    /**
+     * findItemsAdvanced Reference Call
+     * @access private
+     * @return boolean 
+     */
+    private function _findItemsAdvanced(){
+        
+        // Open Request
+        $request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+        $request .= "<findItemsAdvancedRequest xmlns=\"http://www.ebay.com/marketplace/search/v1/services\">";
+        
+        // Standard Options
+        $request .= $this->_process_standard_options();
+        
+        // aspectFilter
+        $result = $this->_process_aspectFilter();
+        if($result !== FALSE){
+
+            $request .= $result;
+        }
+        
+        // categoryId
+        $result = $this->_process_categoryId();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+        // descriptionSearch
+        $result = $this->_process_descriptionSearch();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+        // domainFilter
+        $result = $this->_process_domainFilter();
+        if($result !== FALSE){
+
+            $request .= $result;
+        }
+        
+        // itemFilter
+        $result = $this->_process_itemFilter();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+            
+        // keywords (required)
+        $result = $this->_process_keywords();
+        if($result){
+            
+            $request .= $result;
+            
+        } else {
+            
+            return FALSE;
+        }
+        
+        // outputSelector
+        $result = $this->_process_outputSelector();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+        // Close Request
+        $request .= "</findItemsAdvancedRequest>\n";
         
         echo $request;
                       
@@ -556,6 +633,20 @@ class Finding {
         
         $this->categoryId = $categoryId;
     }
+    
+    /**
+     * Adds descriptionSearch Call Options
+     * @access public
+     * @param type $descriptionSearch 
+     */
+    public function add_descriptionSearch($descriptionSearch){
+        
+        if($descriptionSearch){
+            $this->descriptionSearch = 1;
+        } else {
+            $this->descriptionSearch = 0;
+        }        
+    }
         
     /**
      * Processes and Creates the XML string for the standard options
@@ -695,6 +786,16 @@ class Finding {
             
             return FALSE;
         }
+    }
+    
+    /** 
+     * descriptionSearch Call Option
+     * @access private
+     * @return string|boolean 
+     */
+    private function _process_descriptionSearch(){
+        
+        return '<descriptionSearch>'.$this->descriptionSearch.'</descriptionSearch>';
     }
     
     /**
