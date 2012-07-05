@@ -138,7 +138,7 @@ class Finding {
      * Request creation for the finditemsByKeyword Finding APi
      * @return boolean 
      */
-    private function _findItemsByKeywords($call_options,$standard_options){
+    private function _findItemsByKeywords($call_options,$standard_options = FALSE){
         
         // Open Request
         $request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
@@ -170,6 +170,10 @@ class Finding {
         }
         
         // itemFilter
+        $result = $this->_process_itemFilter($call_options);
+        if($result !== FALSE){
+            $request .= $result;
+        }
             
         // keywords (required)
         $result = $this->_process_keywords($call_options);
@@ -183,9 +187,15 @@ class Finding {
         }
         
         // outputSelector
+        $result = $this->_process_outputSelector($call_options);
+        if($result !== FALSE){
+            $request .= $result;
+        }
         
         // Close Request
         $request .= "</findItemsByKeywordsRequest>\n";
+        
+        echo $request;
                       
         // Send Request
         if($this->_send($call_options['url'], $call_options['headers'], $request)){
@@ -419,6 +429,61 @@ class Finding {
             
             return FALSE;
         }
+    }
+    
+    /**
+     * itemFilter Call Option
+     * @access private
+     * @param array $call_options
+     * @return string|bool 
+     */
+    private function _process_itemFilter($call_options){
+        
+        if(isset($call_options['itemFilters'])){
+            
+            $item_filter_string = '';
+         
+            foreach($call_options['itemFilters'] as $itemFilter){
+                
+                $item_filter_string .= '<itemFilter>';
+                
+                $item_filter_string .= '<name>'.$itemFilter['name'].'</name>';
+                
+                if(isset($itemFilter['paramName'])){
+                    $item_filter_string .= '<paramName>'.$itemFilter['paramName'].'</paramName>';
+                }
+                
+                if(isset($itemFilter['paramValue'])){
+                    $item_filter_string .= '<paramValue>'.$itemFilter['paramValue'].'</paramValue>';
+                }
+                
+                
+                foreach($itemFilter['values'] as $value){
+                    
+                    $item_filter_string .= '<value>'.$value.'</value>';
+                }
+                
+                $item_filter_string .= '</itemFilter>';            
+                
+            }
+            
+            return $item_filter_string;
+            
+        } else {
+            
+            return FALSE;
+        }
+        
+    }
+    
+    /**
+     * outputSelector Call Option
+     * @access private
+     * @param array $call_options
+     * @return string|bool 
+     */
+    private function _process_outputSelector($call_options){
+        
     }
     
     /**
