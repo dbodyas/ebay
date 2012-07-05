@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    </head>
-    <body>
-        <h2>eBay API</h2>
-        <p>The goal for this API is to make a reliable PHP class to communicate with the finding, shopping and trading API.</p>
-    </body>
-</html>
+eBay API
+========
+The goal for this API is to make a reliable PHP class to communicate with the finding, shopping and trading API.
