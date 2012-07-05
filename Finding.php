@@ -22,6 +22,7 @@ class Finding {
     private $productId = array();
     private $descriptionSearch = 1;
     private $itemId = '';
+    private $storeName = '';
     
     /**
      * Standard Options 
@@ -551,6 +552,78 @@ class Finding {
     }
     
     /**
+     * findItemsIneBayStores Call Reference
+     * @return boolean 
+     */
+    private function _findItemsIneBayStores(){
+        
+        // Open Request
+        $request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+        $request .= "<findItemsIneBayStoresRequest xmlns=\"http://www.ebay.com/marketplace/search/v1/services\">";
+        
+        // Standard Options
+        $request .= $this->_process_standard_options();
+        
+        // aspectFilter
+        $result = $this->_process_aspectFilter();
+        if($result !== FALSE){
+
+            $request .= $result;
+        }
+        
+        // categoryId
+        $result = $this->_process_categoryId();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+        // domainFilter
+        $result = $this->_process_domainFilter();
+        if($result !== FALSE){
+
+            $request .= $result;
+        }
+        
+        // itemFilter
+        $result = $this->_process_itemFilter();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+            
+        // keywords (required)
+        $result = $this->_process_keywords();
+        if($result){
+            
+            $request .= $result;
+            
+        }
+        
+        // outputSelector
+        $result = $this->_process_outputSelector();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+        // storeName
+        $result = $this->_process_storeName();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+        // Close Request
+        $request .= "</findItemsIneBayStoresRequest>\n";
+        
+        echo $request;
+                      
+        // Send Request
+        if($this->_send($this->url, $this->headers, $request)){
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+    
+    /**
      * getHistograms Reference Call
      * @access private
      * @return boolean 
@@ -828,6 +901,16 @@ class Finding {
         } else {
             $this->descriptionSearch = 0;
         }        
+    }
+    
+    /**
+     * Adds storeName Call Options
+     * @access public
+     * @param type $storeName 
+     */
+    public function add_storeName($storeName){
+        
+        $this->storeName = trim($storeName);
     }
         
     /**
@@ -1151,6 +1234,23 @@ class Finding {
             $product_id_string = '<productId type="'.$this->productId['type'].'">'.$this->productId['productId'].'</productId>';
             
             return $product_id_string;
+            
+        } else {
+            
+            return '';
+        }
+    }
+    
+    /**
+     * storeName Call Option
+     * @access private
+     * @return string|boolean 
+     */
+    private function _process_storeName(){
+        
+        if($this->storeName !== ''){
+            
+            return '<storeName>'.$this->storeName.'</storeName>';
             
         } else {
             
