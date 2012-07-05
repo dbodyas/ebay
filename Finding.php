@@ -19,6 +19,7 @@ class Finding {
     private $keywords = array();
     private $outputSelectors = array();
     private $categoryId = 0;
+    private $productId = '';
     
     /**
      * Standard Options 
@@ -164,6 +165,82 @@ class Finding {
     }
     
     /**
+     * findCompletedItems Reference Call
+     * @access private
+     * @return boolean 
+     */
+    private function _findCompletedItems(){
+        
+        // Open Request
+        $request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+        $request .= "<findItemsByKeywordsRequest xmlns=\"http://www.ebay.com/marketplace/search/v1/services\">";
+        
+        // Standard Options
+        $request .= $this->_process_standard_options();
+        
+        // aspectFilter
+        $result = $this->_process_aspectFilter();
+        if($result !== FALSE){
+
+            $request .= $result;
+        }
+        
+        // categoryId
+        $result = $this->_process_categoryId();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+        // domainFilter
+        $result = $this->_process_domainFilter();
+        if($result !== FALSE){
+
+            $request .= $result;
+        }
+        
+        // itemFilter
+        $result = $this->_process_itemFilter();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+            
+        // keywords (required)
+        $result = $this->_process_keywords();
+        if($result){
+            
+            $request .= $result;
+            
+        } else {
+            
+            return FALSE;
+        }
+        
+        // outputSelector
+        $result = $this->_process_outputSelector();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+        // productId
+        $result = $this->_process_productId();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+        // Close Request
+        $request .= "</findItemsByKeywordsRequest>\n";
+        
+        echo $request;
+                      
+        // Send Request
+        if($this->_send($this->url, $this->headers, $request)){
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+    
+    /**
      * Request creation for the finditemsByKeyword Finding APi
      * @return boolean 
      */
@@ -227,9 +304,8 @@ class Finding {
     }
     
     /**
-     * getHistograms Refeference Call
-     * @param array $call_options
-     * @param array $standard_options
+     * getHistograms Reference Call
+     * @access private
      * @return boolean 
      */
     private function _getHistograms(){
@@ -253,6 +329,51 @@ class Finding {
         } else {
             return FALSE;
         }
+    }
+    
+    /**
+     * getSearchKeywordsRecommendation Reference Call
+     * @access private
+     * @return boolean
+     */
+    private function _getSearchKeywordsRecommendation(){
+        
+        // Open Request
+        $request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+        $request .= "<getSearchKeywordsRecommendationResponse xmlns=\"http://www.ebay.com/marketplace/search/v1/services\">";
+               
+        // keywords
+       $result = $this->_process_keywords();
+       if($result !== FALSE){
+           $request .= $result;
+       }
+        
+        // Close Request
+        $request .= "</getSearchKeywordsRecommendationResponse>\n";
+                      
+        // Send Request
+        if($this->_send($this->url, $this->headers, $request)){
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+    
+    /**
+     * getVersion Reference Call
+     * @return boolean 
+     */
+    private function _getVersion(){
+       // Open Request
+        $request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+        $request .= "<getVersionRequest xmlns=\"http://www.ebay.com/marketplace/search/v1/services\" />";
+                      
+        // Send Request
+        if($this->_send($this->url, $this->headers, $request)){
+            return TRUE;
+        } else {
+            return FALSE;
+        } 
     }
     
     /**
@@ -420,6 +541,14 @@ class Finding {
     }
     
     /**
+     * Adds productId to Call Options
+     * @param string $productId 
+     */
+    public function add_productId($productId){
+        $this->productId = $productId;
+    }
+    
+    /**
      * Adds categoryId to Call Options
      * @param type $categoryId 
      */
@@ -570,7 +699,7 @@ class Finding {
     
     /**
      * Keyword Call Option
-     * @param array $call_options
+     * @access private
      * @return string|bool 
      */
     private function _process_keywords(){
@@ -645,7 +774,6 @@ class Finding {
     /**
      * itemFilter Call Option
      * @access private
-     * @param array $call_options
      * @return string|bool 
      */
     private function _process_itemFilter(){
@@ -689,7 +817,6 @@ class Finding {
     /**
      * outputSelector Call Option
      * @access private
-     * @param array $call_options
      * @return string|bool 
      */
     private function _process_outputSelector(){
@@ -709,6 +836,25 @@ class Finding {
         } else {
             
             return FALSE;
+        }
+    }
+    
+    /**
+     * productId Call Option
+     * @access private
+     * @return string 
+     */
+    private function _process_productId(){
+        
+        if($this->productId !== ''){
+            
+            $product_id_string = '<productId>'.$this->productId.'</productId>';
+            
+            return $product_id_string;
+            
+        } else {
+            
+            return '';
         }
     }
     
