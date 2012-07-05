@@ -5,7 +5,7 @@
  * @author Rick Earley <rick@earleyholdings.com>
  * @category Ebay API
  * @package Trading API
- * @version 1.0 
+ * @version 0.1.3 
  */
 class Trading {
     
