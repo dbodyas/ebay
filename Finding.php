@@ -23,6 +23,7 @@ class Finding {
     private $descriptionSearch = 1;
     private $itemId = '';
     private $storeName = '';
+    private $global_id = 'EBAY-US';
     
     /**
      * Standard Options 
@@ -100,18 +101,12 @@ class Finding {
      * @var array 
      */
     private $api_urls = array(
-        
-        'finding'=>array(
-            'production'=>'http://svcs.ebay.com/services/search/FindingService/v1',
-            'sandbox'=>'http://svcs.sandbox.ebay.com/services/search/FindingService/v1'
-            )
-        
+        'production'=>'http://svcs.ebay.com/services/search/FindingService/v1',
+        'sandbox'=>'http://svcs.sandbox.ebay.com/services/search/FindingService/v1'
         );   
     
-    public function __construct($appID,$request_format = 'XML') {
-        $this->appID = $appID;
-        $this->request_format = $request_format;
-        
+    public function __construct($appID) {
+        $this->appID = $appID;        
     }
 
     /**
@@ -131,18 +126,18 @@ class Finding {
         // API URL
         if ($sandbox) {
 
-            $this->url = $this->api_urls['finding']['sandbox'];
+            $this->url = $this->api_urls['sandbox'];
             
         } else {
 
-            $this->url = $this->api_urls['finding']['production'];
+            $this->url = $this->api_urls['production'];
         }
         
         // Headers
         $this->headers = array(
             'X-EBAY-SOA-OPERATION-NAME: '.$this->call_type.'',
             "X-EBAY-SOA-SERVICE-VERSION:1.3.0",
-            "X-EBAY-SOA-GLOBAL-ID: EBAY-US",
+            "X-EBAY-SOA-GLOBAL-ID: $this->global_id",
             "X-EBAY-SOA-REQUEST-DATA-FORMAT: $this->request_format",
             "X-EBAY-SOA-RESPONSE-DATA-FORMAT: $this->request_format",
             "X-EBAY-SOA-SECURITY-APPNAME: $this->appID"
