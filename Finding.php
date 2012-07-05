@@ -19,7 +19,7 @@ class Finding {
     private $keywords = array();
     private $outputSelectors = array();
     private $categoryId = 0;
-    private $productId = '';
+    private $productId = array();
     private $descriptionSearch = 1;
     private $itemId = '';
     
@@ -440,7 +440,52 @@ class Finding {
         } else {
             return FALSE;
         }
-    }   
+    }
+    
+    /**
+     * findItemsByProduct Reference Call
+     * @access private
+     * @return boolean 
+     */
+    private function _findItemsByProduct(){
+        
+        // Open Request
+        $request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+        $request .= "<findItemsByProductRequest xmlns=\"http://www.ebay.com/marketplace/search/v1/services\">";
+        
+        // Standard Options
+        $request .= $this->_process_standard_options();
+               
+        // itemFilter
+        $result = $this->_process_itemFilter();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+        // outputSelector
+        $result = $this->_process_outputSelector();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+         // productId
+        $result = $this->_process_productId();
+        if($result !== FALSE){
+            $request .= $result;
+        }
+        
+        // Close Request
+        $request .= "</findItemsByProductRequest>\n";
+        
+        echo $request;
+                      
+        // Send Request
+        if($this->_send($this->url, $this->headers, $request)){
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    } 
     
     /**
      * Request creation for the finditemsByKeyword Finding APi
@@ -757,8 +802,9 @@ class Finding {
      * Adds productId to Call Options
      * @param string $productId 
      */
-    public function add_productId($productId){
-        $this->productId = $productId;
+    public function add_productId($productId,$type){
+        
+        $this->productId = array('productId'=>$productId,'type'=>$type);
     }
     
     /**
@@ -1100,9 +1146,9 @@ class Finding {
      */
     private function _process_productId(){
         
-        if($this->productId !== ''){
+        if(!empty($this->productId)){
             
-            $product_id_string = '<productId>'.$this->productId.'</productId>';
+            $product_id_string = '<productId type="'.$this->productId['type'].'">'.$this->productId['productId'].'</productId>';
             
             return $product_id_string;
             
