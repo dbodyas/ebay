@@ -26,7 +26,7 @@ class Finding {
     private $affiliate = array();
     private $buyerPostalCode = '';
     private $paginationInput = array();
-    private $sortOrder = array();
+    private $sortOrder = '';
     
     /**
      * Send Options
@@ -117,7 +117,7 @@ class Finding {
      * @param bool $sandbox
      * @return mixed 
      */
-    public function search($standard_options = FALSE, $sandbox = FALSE) {
+    public function search($sandbox = FALSE) {
         
         // Check Call Options / Type
         if($this->_check_call_type() == FALSE){
@@ -147,39 +147,34 @@ class Finding {
         // Process Request
         $method_call = '_'.$this->call_type;
         
-        if($standard_options === FALSE){
+        if(method_exists($this, $method_call)){
             
             $response = $this->$method_call();
             
         } else {
             
-            $response = $this->$method_call($standard_options);
+            // Error
+            $this->error['function'] = 'SEARCH';
+            $this->error['message'] = 'The API does not exisits or has not been implmented.';
+            return FALSE;
         }
-                
+            
         return $response;
-                    
+        
     }
     
     /**
      * Request creation for the finditemsByKeyword Finding APi
      * @return boolean 
      */
-    private function _findItemsByKeywords($standard_options = FALSE){
+    private function _findItemsByKeywords(){
         
         // Open Request
         $request = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
         $request .= "<findItemsByKeywordsRequest xmlns=\"http://www.ebay.com/marketplace/search/v1/services\">";
         
         // Standard Options
-        $standard_options_string = $this->_process_standard_options($standard_options);
-        if( $standard_options_string !== FALSE){
-            
-            $request .= $standard_options_string;
-            
-        } else {
-            
-            return FALSE;
-        }
+        $request .= $this->_process_standard_options();
         
         // aspectFilter
         $result = $this->_process_aspectFilter();
@@ -258,6 +253,64 @@ class Finding {
         } else {
             return FALSE;
         }
+    }
+    
+    /**
+     * Adds affiliate Standard Option
+     * @param string $customId
+     * @param boolean $geoTargeting
+     * @param string $networkId
+     * @param string $trackingId 
+     */
+    public function add_affiliate($customId,$geoTargeting = FALSE,$networkId = '',$trackingId = ''){
+        
+        $affiliate['customId'] = $customId;
+        
+        if($geoTargeting){
+            $affiliate['geoTargeting'] = 1;
+        } else {
+            $affiliate['geoTargeting'] = 0;
+        }
+        
+        
+        if($networkId !== 'networkId'){
+            $affiliate['networkId'] = $networkId;
+        }
+        
+        if($trackingId !== 'trackingId'){
+            $affiliate['trackingId'] = $trackingId;
+        }
+        
+        $this->affiliate = $affiliate;
+        
+    }
+    
+    /**
+     * Adds buyerPostalCode Standard Option
+     * @param string $buyerPostalCode 
+     */
+    public function add_buyerPostalCode($buyerPostalCode){
+        
+        $this->buyerPostalCode = trim($buyerPostalCode);
+    }
+    
+    /**
+     * Adds paginationInput Standard Option
+     * @param int $entriesPerPage
+     * @param int $pageNumber 
+     */
+    public function add_paginationInput($entriesPerPage,$pageNumber = 1){
+        
+        $this->paginationInput = array('entriesPerPage'=>$entriesPerPage,'pageNumber'=>$pageNumber);
+        
+    }
+    
+    /**
+     * Adds sortOrder Standard Option
+     * @param string $sortOrder 
+     */
+    public function add_sortOrder($sortOrder){
+        $this->sortOrder = trim($sortOrder);
     }
     
     /**
@@ -379,114 +432,121 @@ class Finding {
      * Processes and Creates the XML string for the standard options
      * @param array $standard_options 
      */
-    private function _process_standard_options($standard_options){
+    private function _process_standard_options(){
         
         $standard_options_string = '';
         
-        if($standard_options !== FALSE){
+        // affiliate
+        $standard_options_string .= $this->_process_affiliate();
+        
+        // buyerPostalCode
+        $standard_options_string .= $this->_process_buyerPostalCode();
+        
+        // paginationInput
+        $standard_options_string .= $this->_process_paginationInput();
+        
+        // sortOrder
+        $standard_options_string .= $this->_process_sortOrder();
+        
+        return $standard_options_string;
+        
+    }
+    
+    /**
+     * affiliate Standard Option
+     * @access private
+     * @return string|boolean 
+     */
+    private function _process_affiliate(){
+        
+        if(!empty($this->affiliate)){
             
-            if(is_array($standard_options)){
-                
-                // Affiliate
-                if(isset($standard_options['affiliate'])){
-                    
-                    $affiliate_string = $this->_affiliate($standard_options['affiliate']);
-                    
-                    if($affiliate_string === FALSE){
-                        
-                        return FALSE;
-                        
-                    } else {
-                        
-                        $standard_options_string .= $affiliate_string;
-                    }
-                }
-                
-                // buyerPostalCode
-                if(isset($standard_options['buyerPostalCode'])){
-                    $standard_options_string .= '<buyerPostalCode>'.$standard_options['buyerPostalCode'].'</buyerPostalCode>';
-                }
-                
-                // paginationInput
-                if(isset($standard_options['paginationInput'])){
-                    
-                    // open
-                    $paginationInput = '<paginationInput>';
-                    
-                    // entriesPerPage
-                    if(isset($standard_options['paginationInput']['entriesPerPage'])){
-                        
-                        $paginationInput .= '<entriesPerPage>'.$standard_options['paginationInput']['entriesPerPage'].'</entriesPerPage>';
-                    }
-                    
-                    // pageNumber
-                    if(isset($standard_options['paginationInput']['pageNumber'])){
-                        
-                        if($standard_options['paginationInput']['pageNumber'] <= 100 AND $standard_options['paginationInput']['pageNumber'] >= 1){
-                            
-                            $paginationInput .= '<pageNumber>'.$standard_options['paginationInput']['pageNumber'].'</pageNumber>';
-                            
-                        } else {
-                            
-                            $this->error['function'] = 'PROCESS STANDARD OPTIONS';
-                            $this->error['message'] = 'PaginationInput->pageNumber cannot be less than 1 or greater than 100.';
-                            return FALSE;                            
-                        }
-                        
-                    }
-                    
-                    //close
-                    $paginationInput .= '</paginationInput>';
-                    
-                    $standard_options_string .= $paginationInput;
-                    
-                }
-                
-                // sortOrder
-                if(isset($standard_options['sortOrder'])){
-                    
-                    $valid_sort_order = array(
-                        'BestMatch',
-                        'BidCountFewest',
-                        'BidCountMost',
-                        'CountryAscending',
-                        'CountryDescending',
-                        'CurrentPriceHighest',
-                        'DistanceNearest',
-                        'EndTimeSoonest',
-                        'PricePlusShippingHighest',
-                        'PricePlusShippingLowest',
-                        'StartTimeNewest'                      
-                    );
-                    
-                    if(in_array($standard_options['sortOrder'], $valid_sort_order)){
-                        
-                        $standard_options_string .= '<sortOrder>'.$standard_options['sortOrder'].'</sortOrder>';
-                        
-                    } else {
-                        
-                        // Error
-                        $this->error['function'] = 'PROCESS STANDARD OPTIONS';
-                        $this->error['message'] = 'Invalid sort order.';
-                        return FALSE;
-                    }
-                    
-                }
-                
-                return $standard_options_string;
-                
-            } else {
-                
-                $this->error['function'] = 'PROCESS STANDARD OPTIONS';
-                $this->error['message'] = 'The standard options are in a incorrect format.';
-                return FALSE;
+            $affiliate_string = '<affiliate>';
+            
+            $affiliate_string .= '<customId>'.$this->affiliate['customId'].'</customId>';
+            
+            $affiliate_string .= '<geoTargeting>'.$this->affiliate['geoTargeting'].'</geoTargeting>';
+            
+            if($this->affiliate['networkId'] !== ''){
+                $affiliate_string .= '<networkId>'.$this->affiliate['networkId'].'</networkId>';
             }
+            
+            if($this->affiliate['trackingId'] !== ''){
+                $affiliate_string .= '<trackingId>'.$this->affiliate['trackingId'].'</trackingId>';
+            }
+            
+            $affiliate_string .= '</affiliate>';
+            
+            return $affiliate_string;
             
         } else {
             
-            return $standard_options_string;
+            return '';
         }
         
+    }
+    
+    /**
+     * buyerPostalCode Standard Option
+     * @access private
+     * @return string|bool 
+     */
+    private function _process_buyerPostalCode(){
+        
+        if($this->buyerPostalCode !== ''){
+            
+            $buyer_postal_code_string = '<buyerPostalCode>'.$this->buyerPostalCode.'</buyerPostalCode>';
+            
+            return $buyer_postal_code_string;
+            
+        } else {
+            
+            return '';
+        }
+    }
+    
+    /**
+     * paginationInput Standard Option
+     * @access private
+     * @return string|boolean 
+     */
+    private function _process_paginationInput(){
+        
+        if(!empty($this->paginationInput)){
+            
+            $pagination_input_string = '<paginationInput>';
+            
+            $pagination_input_string .= '<entriesPerPage>'.$this->paginationInput['entriesPerPage'].'</entriesPerPage>';
+            
+            $pagination_input_string .= '<pageNumber>'.$this->paginationInput['pageNumber'].'</pageNumber>';
+            
+            $pagination_input_string .= '</paginationInput>';
+            
+            return $pagination_input_string;            
+            
+        } else {
+            
+            return '';
+        }
+    }
+    
+    /** 
+     * sortOrder Standard Option
+     * @access private
+     * @return string_boolean 
+     */
+    private function _process_sortOrder(){
+        
+        if($this->sortOrder !== ''){
+            
+            $sort_order_string = '<sortOrder>'.$this->sortOrder.'</sortOrder>';
+            
+            return $sort_order_string;
+            
+        } else {
+            
+            return '';
+        }
     }
     
     /**
