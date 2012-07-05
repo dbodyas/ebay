@@ -455,8 +455,7 @@ class Finding {
                 
                 if(isset($itemFilter['paramValue'])){
                     $item_filter_string .= '<paramValue>'.$itemFilter['paramValue'].'</paramValue>';
-                }
-                
+                }                
                 
                 foreach($itemFilter['values'] as $value){
                     
