@@ -1,0 +1,18 @@
+{
+    "name": "rearley/Ebay",
+    "type":"library",
+    "description":"Provides a method to communicate with eBay's Finding, Shopping and Trading API.",
+    "keywords":["ebay","api"],
+    "homepage":"https://github.com/rearley/ebay",
+    "authors":[
+        {
+            "name":"Rick Earley",
+            "email":"rick@earleyholdings.com",
+            "homepage":"",
+            "role":"Developer"
+        }
+    ],
+    "require":{
+        "php": ">5.2.0"
+    }
+}
