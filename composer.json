@@ -1,7 +1,7 @@
 {
     "name": "rearley/Ebay",
     "type":"library",
-    "description":"Provides a method to communicate with eBay's Finding, Shopping and Trading API. Version 0.1.3 only supports the Finding API.",
+    "description":"Provides a method to communicate with eBay's Finding, Shopping and Trading API. Version 0.1.6 only supports the Finding API.",
     "keywords":["ebay","api"],
     "homepage":"https://github.com/rearley/ebay",
     "authors":[
@@ -16,6 +16,7 @@
         "php": ">5.2.0"
     },
     "autoload":{
-        "psr-0": {"rearley":""}
-    }
+        "psr-0": {"rearley\\Ebay":""}
+    },
+    "target-dir":"rearley/Ebay"
 }
