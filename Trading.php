@@ -74,7 +74,12 @@ class Trading {
      * --------------------------------------------------- 
      */
     
-    
+    /**
+     * AddDispute Call Reference
+     * @access public
+     * @link http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/AddDispute.html
+     * @return boolean 
+     */
     public function AddDispute(){
         
         // Start Request
@@ -83,8 +88,60 @@ class Trading {
         // RequesterCredentials
         $request .= $this->_build_request_credentials();
         
+        // ErrorLanguage
+        $request .= trim($this->_ErrorLanguage());
+        
+        // MessageID
+        $request .= trim($this->_MessageID());
+        
+        // WarningLevel
+        $request .= trim($this->_WarningLevel());
+        
+        // DisputeExpanation
+        $request_required = $this->_required('DisputeExpanation',trim($this->_DisputeExplanation()));
+        if($request_required == FALSE){
+            return FALSE;
+        }
+        $request .= $request_required;
+        
+        // Dispute Reason
+        $request_required = $this->_required('DisputeReason', trim($this->_DisputeReason()));
+        if($request_required == FALSE){
+            return FALSE;
+        }
+        $request .= $request_required;
+        
+        /**
+         * Either ItemID/TransactionID has to be set or OrderLineItemID 
+         */
+        if(isset($this->standard_input_fields['OrderLineItemID'])){
+            
+            $request .= trim($this->_OrderLineItemID());
+            
+        } else {
+            
+            // itemID and TransactionID BOTH have to be set
+            if(isset($this->standard_input_fields['ItemID']) && isset($this->standard_input_fields['TransactionID'])){
+                
+                // ItemID
+                $request .= trim($this->_ItemID());
+                
+                // TransactionID
+                $request .= trim($this->_TransactionID());
+                
+            } else {
+                
+                // Report Error
+                $this->error['function'] = 'AddDispute';
+                $this->error['message'] = 'ItemID/TransactionID are required if not using OrderLineItemID.';
+                return FALSE;                
+            }            
+        }        
+        
         // End Request
         $request .= '</AddDisputeRequest>';
+        
+        echo $request;
         
     }
     
@@ -111,6 +168,84 @@ class Trading {
         
     }
     
+    /**
+     * MessageID - Standard Input Field
+     * @access public
+     * @param string $message_id 
+     */
+    public function MessageID($message_id){
+        
+        $this->standard_input_fields['MessageID'] = trim($message_id);
+    }
+    
+    /**
+     * WarningLevel - Standard Input Field
+     * @access public
+     * @param string $warning_level (high|low)
+     */
+    public function WarningLevel($warning_level){
+        
+        // standardize
+        $warning_level = strtolower(trim($warning_level));
+        
+        // Can either be high or low. Default low for invaild input
+        if($warning_level !== 'low' and $warning_level !== 'high'){
+            $this->standard_input_fields['WarningLevel'] = 'low';
+        } else {
+            $this->standard_input_fields['WarningLevel'] = strtolower(trim($warning_level));
+        }
+        
+    }
+    
+    /**
+     * DisputeExplanation - Call Input Field
+     * @access public
+     * @param string $dispute_explanation 
+     */
+    public function DisputeExplanation($dispute_explanation){
+        
+        $this->standard_input_fields['DisputeExplanation'] = trim($dispute_explanation);        
+    }
+    
+    /**
+     * DisputeReason - Call Input Field
+     * @access public
+     * @param string $dispute_reason 
+     */
+    public function DisputeReason($dispute_reason){
+        $this->standard_input_fields['DisputeReason'] = trim($dispute_reason);
+    }
+    
+    /**
+     * ItemID - Call Input Field
+     * @access public
+     * @param string $item_id 
+     */
+    public function ItemID($item_id){
+        
+        $this->standard_input_fields['ItemID'] = trim($item_id);
+    }
+    
+    /**
+     * OrderLineItemID - Call Input Field
+     * @access public
+     * @param string $OrderLineItemID
+     */
+    public function OrderLineItemID($OrderLineItemID){
+        
+        $this->standard_input_fields['OrderLineItemID'] = trim($OrderLineItemID);
+    }
+    
+    /**
+     * TransactionID - Call Input Field
+     * @access public
+     * @param string $TransactionID 
+     */
+    public function TransactionID($TransactionID){
+        
+        $this->standard_input_fields['TransactionID'] = trim($TransactionID);
+    }
+    
     
     
     
@@ -135,12 +270,134 @@ class Trading {
         
         if(isset($this->standard_input_fields['ErrorLanguage'])){
             
-            $ErrorLanguage_string = '<ErrorLanguage>'.$this->standard_input_fields['ErrorLanguage'].'</ErrorLanguage>';
-            
+            $ErrorLanguage_string = '<ErrorLanguage>'.$this->standard_input_fields['ErrorLanguage'].'</ErrorLanguage>';            
         }
         
         return $ErrorLanguage_string;
         
+    }
+    
+    /**
+     * Create MessagID XML
+     * @access private
+     * @return string 
+     */
+    private function _MessageID(){
+        
+        $MessageID_string = '';
+        
+        if(isset($this->standard_input_fields['MessageID'])){
+            
+            $MessageID_string = '<MessageID>'.$this->standard_input_fields['MessageID'].'</MessageID>';
+        }
+        
+        return $MessageID_string;
+    }
+    
+    /**
+     * WarningLevel XML
+     * @access private
+     * @return string 
+     */
+    private function _WarningLevel(){
+        
+        $WarningLevel_string  = '';
+        
+        // Prevent from running in production enviroment
+        if($this->sandbox_mode){
+            
+            if(isset($this->standard_input_fields['WarningLevel'])){
+
+                $WarningLevel_string = '<WarningLevel>'.$this->standard_input_fields['WarningLevel'].'</WarningLevel>';
+            }
+        }
+        
+        return $WarningLevel_string;
+    }
+    
+    /**
+     * DisputeExplanation XML
+     * @access private
+     * @return string 
+     */
+    private function _DisputeExplanation(){
+        
+        $DisputeExplanation_string = '';
+        
+        if(isset($this->standard_input_fields['DisputeExplanation'])){
+            
+            $DisputeExplanation_string = '<DisputeExplanation>'.$this->standard_input_fields['DisputeExplanation'].'</DisputeExplanation>';
+        }
+        
+        return $DisputeExplanation_string;        
+    }
+    
+    /**
+     * DisputeReason XML
+     * @access private
+     * @return string 
+     */
+    private function _DisputeReason(){
+        
+        $DisputeReason_string = '';
+        
+        if(isset($this->standard_input_fields['DisputeReason'])){
+            
+            $DisputeReason_string = '<DisputeReason>'.$this->standard_input_fields['DisputeReason'].'</DisputeReason>';
+        }
+        
+        return $DisputeReason_string;
+    }
+    
+    /**
+     * ItemID XML
+     * @access private
+     * @return string 
+     */
+    private function _ItemID(){
+        
+        $ItemID_string = '';
+        
+        if(isset($this->standard_input_fields['ItemID'])){
+            
+            $ItemID_string = '<ItemID>'.$this->standard_input_fields['ItemID'].'</ItemID>';
+        }
+        
+        return $ItemID_string;        
+    }
+    
+    /**
+     * OrderLineItemID XML
+     * @access private
+     * @return string 
+     */
+    private function _OrderLineItemID(){
+        
+        $OrderLineItemID_string = '';
+        
+        if(isset($this->standard_input_fields['OrderLineItemID'])){
+            
+            $OrderLineItemID_string = '<OrderLineItemID>'.$this->standard_input_fields['OrderLineItemID'].'</OrderLineItemID>';
+        }
+        
+        return $OrderLineItemID_string;
+    }
+    
+    /**
+     * TransactionID XML
+     * @access private
+     * @return string 
+     */
+    private function _TransactionID(){
+        
+        $TransactionID_string = '';
+        
+        if(isset($this->standard_input_fields['TransactionID'])){
+            
+            $TransactionID_string = '<TransactionID>'.$this->standard_input_fields['TransactionID'].'</TransactionID>';
+        }
+        
+        return $TransactionID_string;
     }
     
     
@@ -151,6 +408,26 @@ class Trading {
      * Misc Private Function 
      * ----------------------- 
      */
+    
+    /**
+     * Check if a value is present
+     * @param string $argument
+     * @param string $value
+     * @return boolean 
+     */
+    private function _required($argument,$value){
+         
+        if($value == ''){
+            
+            $this->error['function'] = 'AddDispute';
+            $this->error['message'] = 'The argument '.$argument.' is required.';
+            return FALSE;
+            
+        } else {
+            
+            return $value;
+        }
+    }
     
     /**
      * Build Headers
