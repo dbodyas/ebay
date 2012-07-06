@@ -238,7 +238,50 @@ class Trading {
         return $this->_send($request);
     }
     
-    
+    /**
+     * AddFixedPriceItem Call Reference
+     * @access public
+     * @link http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/AddFixedPriceItem.html
+     * @return boolean 
+     */
+    public function AddFixedPriceItem(){
+        
+        $this->call_reference = 'AddFixedPriceItem';
+        
+        // Open
+        $request = '<AddFixedPriceItemRequest xmlns="urn:ebay:apis:eBLBaseComponents">';
+        
+        // RequestCredentials
+        $request .= $this->_build_request_credentials();
+        
+        // ErrorLanguage
+        $request .= $this->_ErrorLanguage();
+        
+        // MessageID
+        $request .= $this->_MessageID();
+        
+        // WarningLevel
+        $request .= $this->_WarningLevel();
+        
+        // Start of Item Container
+        $request .= '<Item>';
+        
+        // ApplicationData
+        $request .= $this->_ApplicationData();
+        
+        // AutoPay
+        $request .= $this->_AutoPay();
+        
+        // End of Item Container
+        $request .= '</Item>';
+        
+        // Close
+        $request .= '</AddFixedPriceItemRequest>';
+        
+        // Send
+        echo $request;exit;
+        return $this->_send($request);
+    }
     
     
     
@@ -429,6 +472,38 @@ class Trading {
      */
     public function ShippingTime($ShippingTime){
         $this->input_fields['ShippingTime'] = trim($ShippingTime);
+    }
+    
+    /**
+     * ApplicationData - Call Input Field
+     * @access public
+     * @param string $ApplicationData (Max Length 32)
+     */
+    public function ApplicationData($ApplicationData){
+        $this->input_fields['ApplicationData'] = trim($ApplicationData);
+    }
+    
+    /**
+     * AutoPay - Call Input Field
+     * @access public
+     * @param boolean $AutoPay 
+     */
+    public function AutoPay($AutoPay){
+        
+        if(is_bool($AutoPay)){
+            if($AutoPay){
+                $this->input_fields['AutoPay'] = '1';
+            } else {
+                $this->input_fields['AutoPay'] = '0';
+            }
+        } else {
+            if(strtolower($AutoPay) == 'true'){
+                $this->input_fields['AutoPay'] = '1';
+            } else {
+                $this->input_fields['AutoPay'] = '0';
+            }
+        }
+
     }
     
     
@@ -686,6 +761,40 @@ class Trading {
         }
         
         return $ShippingTime_string;
+    }
+    
+    /**
+     * ApplicationData XML
+     * @access private
+     * @return string 
+     */
+    private function _ApplicationData(){
+        
+        $ApplicationData_string = '';
+        
+        if(isset($this->input_fields['ApplicationData'])){
+            
+            $ApplicationData_string = '<ApplicationData>'.$this->input_fields['ApplicationData'].'</ApplicationData>';
+        }
+        
+        return $ApplicationData_string;        
+    }
+    
+    /**
+     * AutoPay XML
+     * @access private
+     * @return string 
+     */
+    private function _AutoPay(){
+        
+        $AutoPay_string = '';
+        
+        if(isset($this->input_fields['AutoPay'])){
+            
+            $AutoPay_string = '<AutoPay>'.$this->input_fields['AutoPay'].'</AutoPay>';
+        }
+        
+        return $AutoPay_string;
     }
     
     
