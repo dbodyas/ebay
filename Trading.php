@@ -73,7 +73,6 @@ class Trading {
             include $namespace_parts[2].'/'.$namespace_parts[3].'.php';
             
         });
-
     }
    
     /**
@@ -83,11 +82,6 @@ class Trading {
      * @return boolean 
      */
     public function AddFixedPriceItem(){
-        
-    }
-    
-    public function __call($name,$arguments){
-        call_user_func_array(array('rearley\\Ebay\\Types\\'.$name,'ItemCompatibilityList'), array('1'));
         
     }
         
