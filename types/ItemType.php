@@ -16,6 +16,7 @@ class ItemType {
     private $BidGroupItem;
     private $BuyerResponsibleForShipping;
     private $BuyItNowPrice;
+    private $BuyItNowPrice_AmountType;
     private $CategoryBasedAttributesPrefill;
     private $CategoryMappingAllowed;
     private $CeilingPrice;
@@ -33,6 +34,7 @@ class ItemType {
     private $FloorPrice;
     private $GetItFast;
     private $GiftIcon;
+    private $GiftServices;
     private $HitCount;
     private $HitCounter;
     private $IntegratedMerchantCreditCardEnabled;
@@ -190,6 +192,138 @@ class ItemType {
             $xml .= '</BuyerRequirementDetails>';
         }
         
+        // BuyerResponsibleForShipping
+        if(isset($this->BuyerResponsibleForShipping)){
+            $xml .= '<BuyerResponsibleForShipping>'.$this->BuyerResponsibleForShipping.'</BuyerResponsibleForShipping>';
+        }
+        
+        // BuyItNowPrice
+        if(isset($this->BuyItNowPrice)){
+            
+            $xml . '<BuyItNowPrice';
+            
+            if(isset($this->BuyItNowPrice_AmountType)){
+                $xml .= ' currencyID = "'.$this->BuyItNowPrice_AmountType.'">';
+            } else {
+                $xml .= '>';
+            }
+            
+            $xml .= $this->BuyItNowPrice.'</BuyItNowPrice>';
+        }
+        
+        // CategoryBasedAttributesPrefill
+        if(isset($this->CategoryBasedAttributesPrefill)){
+            $xml .= '<CategoryBasedAttributesPrefill>'.$this->CategoryBasedAttributesPrefill.'</CategoryBasedAttributesPrefill>';
+        }
+        
+        // CategoryMappingAllowed
+        if(isset($this->CategoryMappingAllowed)){
+            $xml .= '<CategoryMappingAllowed>'.$this->CategoryMappingAllowed.'</CategoryMappingAllowed>';
+        }
+        
+        // Charity
+        if(isset($this->Charity)){
+            $xml .= '<Charity>';
+            $xml .= $this->Charity->build();
+            $xml .= '</Charity>';
+        }
+        
+        // ConditionID
+        if(isset($this->ConditionID)){
+            $xml .= '<ConditionID>'.$this->ConditionID.'</ConditionID>';
+        }
+        
+        // Country
+        if(isset($this->Country)){
+            $xml .='<Country>'.$this->Country.'</Country>';
+        }
+        
+        // CrossBorderTrade
+        if(isset($this->CrossBorderTrade)){
+            
+            foreach($this->CrossBorderTrade as $cbt){
+                $xml .= '<CrossBorderTrade>';
+                $xml .= $cbt;
+                $xml .= '</CrossBorderTrade>';
+            }
+        }
+        
+        // Currency
+        if(isset($this->Currency)){
+            $xml .= '<Currency>'.$this->Currency.'</Currency>';
+        }
+        
+        // Description
+        if(isset($this->Description)){
+            $xml .= '<Description>'.$this->Description.'</Description>';
+        }
+        
+        // DisableBuyerRequirements
+        if(isset($this->DisableBuyerRequirements)){
+            $xml .= '<DisableBuyerRequirements>'.$this->DisableBuyerRequirements.'</DisableBuyerRequirements>';
+        }
+        
+        // DiscountPriceInfo
+        if(isset($this->DiscountPriceInfo)){
+            $xml .= '<DiscountPriceInfo>';
+            $xml .= $this->DiscountPriceInfo->build();
+            $xml .= '</DiscountPriceInfo>';
+        }
+        
+        // DispatchTimeMax
+        if(isset($this->DispatchTimeMax)){
+            $xml .= '<DispatchTimeMax>'.$this->DispatchTimeMax.'</DispatchTimeMax>';
+        }
+        
+        // ExtendedSellerContactDetails
+        if(isset($this->ExtendedSellerContactDetails)){
+            $xml .= '<ExtendedSellerContactDetails>';
+            $xml .= $this->ExtendedSellerContactDetails->build();
+            $xml .= '</ExtendedSellerContactDetails>';
+        }
+        
+        // GetItFast
+        if(isset($this->GetItFast)){
+            $xml .= '<GetItFast>'.$this->GetItFast.'</GetItFast>';
+        }
+        
+        // GiftIcon
+        if(isset($this->GiftIcon)){
+            $xml .= '<GiftIcon>'.$this->GiftIcon.'</GiftIcon>';
+        }
+        
+        // GiftServices
+        if(isset($this->GiftServices)){
+            foreach($this->GiftServices as $gs){
+                $xml .= '<GiftServices>'.$gs.'</GiftServices>';
+            }
+        }
+        
+        // HitCounter
+        if(isset($this->HitCounter)){
+            $xml .= '<HitCounter>'.$this->HitCounter.'</HitCounter>';
+        }
+        
+        // ItemCompatibilityList
+        if(isset($this->ItemCompatibilityList)){
+            $xml .= '<ItemCompatibilityList>';
+            $xml .= $this->ItemCompatibilityList->build();
+            $xml .= '</ItemCompatibilityList>';
+        }
+        
+        // ItemSpecifics
+        if(isset($this->ItemSpecifics)){
+            $xml .= '<ItemSpecifics>';
+            $xml .= $this->ItemSpecifics->build();
+            $xml .= '</ItemSpecifics>';
+        }
+        
+        
+        
+        
+        
+        
+        
         return $xml;
         
     }
@@ -248,10 +382,225 @@ class ItemType {
     /**
      * BuyerRequirementDetails
      * @access public
-     * @param BuyerRequirementDetailsType $BuyerRequirementDetails
+     * @param BuyerRequirementDetailsType $BuyerRequirementDetails [0..1]
      */
     public function BuyerRequirementDetails($BuyerRequirementDetails){
         $this->BuyerRequirementDetails = $BuyerRequirementDetails;
+        return $this;
+    }
+    
+    /**
+     * BuyerResponsibleForShipping
+     * @access public
+     * @param boolean $BuyerResponsibleForShipping [0..1]
+     */
+    public function BuyerResponsibleForShipping($BuyerResponsibleForShipping){
+        $this->BuyerResponsibleForShipping = $this->_get_boolean($BuyerResponsibleForShipping);
+        return $this;
+    }
+    
+    /**
+     * BuyItNowPrice
+     * @access public
+     * @param double $amount
+     * @param string $amountType [0..1]
+     */
+    public function BuyItNowPrice($amount,$amountType = NULL){
+        $this->BuyItNowPrice = $amount;
+        $this->BuyItNowPrice_AmountType = $amountType;
+        return $this;
+    }
+    
+    /**
+     * CategoryBasedAttributesPrefill
+     * @access public
+     * @param boolean $CategoryBasedAttributesPrefill [0..1]
+     */
+    public function CategoryBasedAttributesPrefill($CategoryBasedAttributesPrefill){
+        $this->CategoryBasedAttributesPrefill = $this->_get_boolean($CategoryBasedAttributesPrefill);
+        return $this;
+    }
+    
+    /**
+     * CategoryMappingAllowed
+     * @access public
+     * @param boolean $CategoryMappingAllowed [0..1]
+     */
+    public function CategoryMappingAllowed($CategoryMappingAllowed){
+        $this->CategoryMappingAllowed = $this->_get_boolean($CategoryMappingAllowed);
+        return $this;
+    }
+    
+    /**
+     * Charity
+     * @access public
+     * @param CharityType $CharityType [0..1] 
+     */
+    public function Charity($CharityType){
+        $this->Charity = $CharityType;
+        return $this;
+    }
+    
+    /**
+     * ConditionID
+     * @access public
+     * @param int $ConditionID [0..1]
+     */
+    public function ConditionID($ConditionID){
+        $this->ConditionID = $ConditionID;
+        return $this;
+    }
+    
+    /**
+     * Country
+     * @access public
+     * @param CountryCodeType $CountryCodeType [1] See Link for Values
+     * @link http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/types/CountryCodeType.html
+     */
+    public function Country($CountryCodeType){
+        $this->Country = $CountryCodeType;
+        return $this;
+    }
+    
+    /**
+     * CrossBorderTrade
+     * @access public
+     * @param array[] $CrossBorderTrade [0..*]
+     */
+    public function CrossBorderTrade($CrossBorderTrade){
+        if(is_array($CrossBorderTrade)){
+            $this->CrossBorderTrade = $CrossBorderTrade;
+        }else{
+            $this->CrossBorderTrade = array($CrossBorderTrade);
+        }
+        return $this;
+    }
+    
+    /**
+     * Currency
+     * @access public
+     * @param CurrencyCodeType $Currency [1]
+     * @link http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/types/CurrencyCodeType.html
+     */
+    public function Currency($Currency){
+        $this->Currency = $Currency;
+        return $this;
+    }
+    
+    /**
+     * Description
+     * @access public
+     * @param string $Description [0..1]
+     */
+    public function Description($Description){
+        $this->Description = $Description;
+        return $this;
+    }
+    
+    /**
+     * DisableBuyerRequirements
+     * @access public
+     * @param boolean $DisableBuyerRequirements [0..1]
+     */
+    public function DisableBuyerRequirements($DisableBuyerRequirements){
+        $this->DisableBuyerRequirements = $this->_get_boolean($DisableBuyerRequirements);
+        return $this;
+    }
+    
+    /**
+     * DiscountPriceInfo
+     * @access public
+     * @param DiscountPriceInfoType $DiscountPriceInfoType [0..1]
+     */
+    public function DiscountPriceInfo($DiscountPriceInfoType){
+        $this->DiscountPriceInfo = $DiscountPriceInfoType;
+        return $this;
+    }
+    
+    /**
+     * DispatchTimeMax
+     * @access public
+     * @param int $DispatchTimeMax [0..1]
+     */
+    public function DispatchTimeMax($DispatchTimeMax){
+        $this->DispatchTimeMax = $DispatchTimeMax;
+        return $this;
+    }
+    
+    /**
+     * ExtendedSellerContactDetails
+     * @access public
+     * @param ExtendedSellerContactDetailsType $ExtendedSellerContactDetailsType [0..1]
+     */
+    public function ExtendedSellerContactDetails($ExtendedSellerContactDetailsType){
+        $this->ExtendedSellerContactDetails = $ExtendedSellerContactDetailsType;
+        return $this;
+    }
+    
+    /**
+     * GetItFast
+     * @access public
+     * @param boolean $GetItFast [0..1]
+     */
+    public function GetItFast($GetItFast){
+        $this->GetItFast = $this->_get_boolean($GetItFast);
+        return $this;
+    }
+    
+    /**
+     * GiftIcon
+     * @access public
+     * @param int $GiftIcon [0..1]
+     */
+    public function GiftIcon($GiftIcon){
+        $this->GiftIcon = $GiftIcon;
+        return $this;
+    }
+    
+    /**
+     * GiftServices
+     * @access public
+     * @param array[] $GiftServicesCodeType [0..*] See Link for Values
+     * @link http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/types/GiftServicesCodeType.html
+     */
+    public function GiftServices($GiftServicesCodeType){
+        if(is_array($GiftServicesCodeType)){
+            $this->GiftServices = $GiftServicesCodeType;
+        }else{
+            $this->GiftServices = array($GiftServicesCodeType);
+        }
+        return $this;
+  
+    }
+    
+    /**
+     * HitCounter
+     * @access public
+     * @param string $HitCounter [0..1] See Link for Values
+     * @link http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/types/HitCounterCodeType.html
+     */
+    public function HitCounter($HitCounter){
+        $this->HitCounter = $HitCounter;
+        return $this;
+    }
+    
+    /**
+     * ItemCompatibilityList
+     * @access public
+     * @param ItemCompatibilityListType $ItemCompatibilityListType [0..1]
+     */
+    public function ItemCompatibilityList($ItemCompatibilityListType){
+        $this->ItemCompatibilityList = $ItemCompatibilityListType;
+        return $this;
+    }
+    
+    /**
+     * ItemSpecifics
+     * @access public
+     * @param NameValueListArrayType $NameValueListArrayType 
+     */
+    public function ItemSpecifics($NameValueListArrayType){
+        $this->ItemSpecifics = $NameValueListArrayType;
         return $this;
     }
     
@@ -269,31 +618,6 @@ class ItemType {
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    /**
-     * ItemCompatibilityList
-     * @access public
-     * @param array[] $array Array Structure of ItemCompatibilityListType
-     */
-    public function ItemCompatibilityList($array){
-        $this->ItemCompatibilityList = $array;
-    }
     
     /**
      * Returns 1/0 for boolean check
