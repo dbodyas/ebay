@@ -318,7 +318,19 @@ class ItemType {
             $xml .= '</ItemSpecifics>';
         }
         
+        // ListingCheckoutRedirectPreference
+        if(isset($this->ListingCheckoutRedirectPreference)){
+            $xml .= '<ListingCheckoutRedirectPreference>';
+            $xml .= $this->ListingCheckoutRedirectPreference->build();
+            $xml .= '</ListingCheckoutRedirectPreference>';
+        }
         
+        // ListingDesigner
+        if(isset($this->ListingDesigner)){
+            $xml .= '<ListingDesigner>';
+            $xml .= $this->ListingDesigner->build();
+            $xml .= '</ListingDesigner>';
+        }
         
         
         
@@ -597,16 +609,32 @@ class ItemType {
     /**
      * ItemSpecifics
      * @access public
-     * @param NameValueListArrayType $NameValueListArrayType 
+     * @param NameValueListArrayType $NameValueListArrayType [0..1]
      */
     public function ItemSpecifics($NameValueListArrayType){
         $this->ItemSpecifics = $NameValueListArrayType;
         return $this;
     }
     
+    /**
+     * ListingCheckoutRedirectPreference
+     * @access public
+     * @param ListingCheckoutRedirectPreferenceType $ListingCheckoutRedirectPreferenceType [0..1]
+     */
+    public function ListingCheckoutRedirectPreference($ListingCheckoutRedirectPreferenceType){
+        $this->ListingCheckoutRedirectPreference = $ListingCheckoutRedirectPreferenceType;
+        return $this;
+    }
     
-    
-    
+    /**
+     * ListingDesigner
+     * @access public
+     * @param ListingDesignerType $ListingDesignerType [0..1]
+     */
+    public function ListingDesigner($ListingDesignerType){
+        $this->ListingDesigner = $ListingDesignerType;
+        return $this;
+    }
     
     
     
