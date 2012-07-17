@@ -332,6 +332,95 @@ class ItemType {
             $xml .= '</ListingDesigner>';
         }
         
+        // ListingDetails
+        if(isset($this->ListingDetails)){
+            $xml .= '<ListingDetails>';
+            $xml .= $this->ListingDetails->build();
+            $xml .= '</ListingDetails>';
+        }
+        
+        // ListingDuration
+        if(isset($this->ListingDuration)){
+            $xml .= '<ListingDuration>'.$this->ListingDuration.'</ListingDuration>';
+        }
+        
+        // ListingEnhancement
+        if(isset($this->ListingEnhancement)){
+            foreach($this->ListingEnhancement as $le){
+                $xml .= '<ListingEnhancement>'.$le.'</ListingEnhancement>';
+            }            
+        }
+        
+        // ListingSubtype2
+        if(isset($this->ListingSubtype2)){
+            $xml .= '<ListingSubtype2>'.$this->ListingSubtype2.'</ListingSubtype2>';
+        }
+        
+        // ListingType
+        if(isset($this->ListingType)){
+            $xml .= '<ListingType>'.$this->ListingType.'</ListingType>';
+        }
+        
+        // Location
+        if(isset($this->Location)){
+            $xml .= '<Location>'.$this->Location.'</Location>';
+        }
+        
+        // LookupAttributeArray
+        if(isset($this->LookupAttributeArray)){
+            $xml .= '<LookupAttributeArray>';
+            $xml .= $this->LookupAttributeArray->build();
+            $xml .= '</LookupAttributeArray>';
+        }
+        
+        // LotSize
+        if(isset($this->LotSize)){
+            $xml .= '<LotSize>'.$this->LotSize.'</LotSize>';
+        }
+        
+        // MotorsGermanySearchable
+        if(isset($this->MotorsGermanySearchable)){
+            $xml .= '<MotorsGermanySearchable>'.$this->MotorsGermanySearchable.'</MotorsGermanySearchable>';
+        }
+        
+        // PaymentDetails
+        if(isset($this->PaymentDetails)){
+            $xml .= '<PaymentDetails>';
+            $xml .= $this->PaymentDetails->build();
+            $xml .= '</PaymentDetails>';
+        }
+        
+        // PaymentMethods
+        if(isset($this->PaymentMethods)){
+            foreach($this->PaymentMethods as $pm){
+                $xml .= '<PaymentMethods>'.$pm.'</PaymentMethods>';
+            }
+        }
+        
+        // PayPalEmailAddress
+        if(isset($this->PayPalEmailAddress)){
+            $xml .= '<PayPalEmailAddress>'.$this->PayPalEmailAddress.'</PayPalEmailAddress>';
+        }
+        
+        // PictureDetails
+        if(isset($this->PictureDetails)){
+            $xml .= '<PictureDetails>';
+            $xml .= $this->PictureDetails->build();
+            $xml .= '</PictureDetails>';
+        }
+        
+        // PostalCode
+        if(isset($this->PostalCode)){
+            $xml .= '<PostalCode>'.$this->PostalCode.'</PostalCode>';
+        }
+        
+        // PostCheckoutExperienceEnabled
+        if(isset($this->PostCheckoutExperienceEnabled)){
+            $xml .= '<PostCheckoutExperienceEnabled>'.$this->PostCheckoutExperienceEnabled.'</PostCheckoutExperienceEnabled>';
+        }
+        
+        
+        
         
         
         
@@ -635,6 +724,174 @@ class ItemType {
         $this->ListingDesigner = $ListingDesignerType;
         return $this;
     }
+    
+    /**
+     * ListingDetails
+     * @access public
+     * @param ListingDetailsType $ListingDetailsType 
+     */
+    public function ListingDetails($ListingDetailsType){
+        $this->ListingDetails = $ListingDetailsType;
+        return $this;
+    }
+    
+    /**
+     * ListingDuration
+     * @access public
+     * @param string $ListingDuration 
+     */
+    public function ListingDuration($ListingDuration){
+        $this->ListingDuration = $ListingDuration;
+        return $this;
+    }
+    
+    /**
+     * ListingEnhancement
+     * @access public
+     * @param ListingEnhancementsCodeType[] $ListingEnhancementsCodeType See Link for values
+     * @link http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/types/ListingEnhancementsCodeType.html
+     */
+    public function ListingEnhancement($ListingEnhancementsCodeType){
+        if(is_array($ListingEnhancementsCodeType)){
+            $this->ListingEnhancement = $ListingEnhancementsCodeType;
+        } else {
+            $this->ListingEnhancement = array($ListingEnhancementsCodeType);
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * ListingSubtype2
+     * @access public
+     * @param ListingSubtypeCodeType $ListingSubtypeCodeType
+     * @link http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/types/ListingSubtypeCodeType.html
+     */
+    public function ListingSubtype2($ListingSubtypeCodeType){
+        $this->ListingSubtype2 = $ListingSubtypeCodeType;
+        return $this;
+    }
+    
+    /**
+     * ListingType
+     * @access public
+     * @param ListingSubtypeCodeType $ListingSubtypeCodeType
+     * @link http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/types/ListingSubtypeCodeType.html
+     */
+    public function ListingType($ListingSubtypeCodeType){
+        $this->ListingType = $ListingSubtypeCodeType;
+        return $this;
+    }
+    
+    /**
+     * Location
+     * @access public
+     * @param string $Location 
+     */
+    public function Location($Location){
+        $this->Location = $Location;
+        return $this;
+    }
+    
+    /**
+     * LookupAttributeArray
+     * @access public
+     * @param LookupAttributeArrayType $LookupAttributeArrayType 
+     */
+    public function LookupAttributeArray($LookupAttributeArrayType){
+        $this->LookupAttributeArray = $LookupAttributeArrayType;
+        return $this;
+    }
+    
+    /**
+     * LotSize
+     * @access public
+     * @param int $LotSize 
+     */
+    public function LotSize($LotSize){
+        $this->LotSize = $LotSize;
+        return $this;
+    }
+    
+    /**
+     * MotorsGermanySearchable
+     * @access public
+     * @param boolean $MotorsGermanySearchable 
+     */
+    public function MotorsGermanySearchable($MotorsGermanySearchable){
+        $this->MotorsGermanySearchable = $this->_get_boolean($MotorsGermanySearchable);
+        return $this;
+    }
+    
+    /**
+     * PaymentDetails
+     * @access public
+     * @param PaymentDetailsType $PaymentDetailsType 
+     */
+    public function PaymentDetails($PaymentDetailsType){
+        $this->PaymentDetails = $PaymentDetailsType;
+        return $this;
+    }
+    
+    /**
+     * PaymentMethods
+     * @access public
+     * @param BuyerPaymentMethodCodeType[] $BuyerPaymentMethodCodeType 
+     */
+    public function PaymentMethods($BuyerPaymentMethodCodeType){
+        if(is_array($BuyerPaymentMethodCodeType)){
+            $this->PaymentMethods = $BuyerPaymentMethodCodeType;
+        } else {
+            $this->PaymentMethods = array($BuyerPaymentMethodCodeType);
+        }
+        return $this;
+    }
+    
+    /**
+     * PayPalEmailAddress
+     * @access public
+     * @param string $PayPalEmailAddress 
+     */
+    public function PayPalEmailAddress($PayPalEmailAddress){
+        $this->PayPalEmailAddress = $PayPalEmailAddress;
+        return $this;
+    }
+    
+    /**
+     * PictureDetails
+     * @access public
+     * @param PictureDetailsType $PictureDetailsType 
+     */
+    public function PictureDetails($PictureDetailsType){
+        $this->PictureDetails = $PictureDetailsType;
+        return $this;
+    }
+    
+    /**
+     * PostalCode
+     * @access public
+     * @param string $PostalCode 
+     */
+    public function PostalCode($PostalCode){
+        $this->PostalCode = $PostalCode;
+        return $this;
+    }
+    
+    /**
+     * PostCheckoutExperienceEnabled
+     * @access public
+     * @param boolean $PostCheckoutExperienceEnabled 
+     */
+    public function PostCheckoutExperienceEnabled($PostCheckoutExperienceEnabled){
+        $this->PostCheckoutExperienceEnabled = $this->_get_boolean($PostCheckoutExperienceEnabled);
+        return $this;
+    }
+    
+    
+    
+    
+    
+    
     
     
     
