@@ -6,23 +6,20 @@ namespace rearley\Ebay\Types;
  * Ebay API
  * @author Rick Earley <rick@earleyholdings.com>
  * @category Ebay API
- * @package BuyerRequirementDetailsType
+ * @package CharacteristicType
  */
-class BuyerRequirementDetailsType {
+class CharacteristicType {
     
     // Fields
-    private $LinkedPayPalAccount;
-    private $MinimumFeedbackScore;
-    private $ShipToRegistrationCountry;
-    private $VerifiedUserRequirements;
-    private $ZeroFeedbackScore;
+    private $AttributeID;
+    private $DateFormat;
+    private $DisplaySequence;
+    private $DisplayUOM;
+    private $SortOrder;
 
     // Types
-    private $MaximumBuyerPolicyViolations; // MaximumBuyerPolicyViolationsType
-    private $MaximumItemRequirements; // MaximumItemRequirementsType
-    private $MaximumUnpaidItemStrikesInfo; // MaximumUnpaidItemStrikesInfoType 
-    
-    
+    private $Label; // LabelType
+    private $ValueList; // ValType
     /**
      * Builds XML
      * @access public 
@@ -31,163 +28,127 @@ class BuyerRequirementDetailsType {
         
         $xml = FALSE;
         
-        // LinkedPayPalAccount
-        if(isset($this->LinkedPayPalAccount)){
-            $xml .= '<LinkedPayPalAccount>'.$this->LinkedPayPalAccount.'</LinkedPayPalAccount>';
+        // AttributeID
+        if(isset($this->AttributeID)){
+            $xml .= '<AttributeID>'.$this->AttributeID.'</AttributeID>';
         }
         
-        // MaximumBuyerPolicyViolations
-        if(isset($this->MaximumBuyerPolicyViolations)){
-            $xml .= '<MaximumBuyerPolicyViolations>';
-            $xml .= $this->MaximumBuyerPolicyViolations->build();
-            $xml .= '</MaximumBuyerPolicyViolations>';
+        // DateFormat
+        if(isset($this->DateFormat)){
+            $xml .= '<DateFormat>'.$this->DateFormat.'</DateFormat>';
         }
         
-        // MaximumItemRequirements
-        if(isset($this->MaximumItemRequirements)){
+        // DisplaySequence
+        if(isset($this->DisplaySequence)){
+            $xml .= '<DisplaySequence>'.$this->DisplaySequence.'</DisplaySequence>';
+        }
+        
+        // DisplayUOM
+        if(isset($this->DisplayUOM)){
+            $xml .= '<DisplayUOM>'.$this->DisplayUOM.'</DisplayUOM>';
+        }
+        
+        // Label
+        if(isset($this->Label)){
+            $xml .= '<Label';
             
-            $xml .= '<MaximumItemRequirements>';
-            $xml .= $this->MaximumItemRequirements->build();            
-            $xml .= '</MaximumItemRequirements>';
+            if($this->Label->get_visible() !== ''){
+                $xml .= ' visible="'.$this->Label->get_visible().'">';
+            } else {
+                $xml .= '>';
+            }
+            
+            $xml .= $this->Label->build();
+            $xml .= '</Label>';
         }
         
-        // MaximumUnpaidItemStrikesInfo
-        if(isset($this->MaximumUnpaidItemStrikesInfo)){
-            $xml .= '<MaximumUnpaidItemStrikesInfo>';
-            $xml .= $this->MaximumUnpaidItemStrikesInfo->build();
-            $xml .= '</MaximumUnpaidItemStrikesInfo>';
+        // SortOrder
+        if(isset($this->SortOrder)){
+            $xml .= '<SortOrder>'.$this->SortOrder.'</SortOrder>';
         }
         
-        // MinimumFeedbackScore
-        if(isset($this->MinimumFeedbackScore)){
-            $xml .= '<MinimumFeedbackScore>'.$this->MinimumFeedbackScore.'</MinimumFeedbackScore>';
+        // ValueList
+        if(isset($this->ValueList)){
+            $xml .= '<ValueList>'.$this->ValueList.'</ValueList>';
         }
-        
-        // ShipToRegistrationCountry
-        if(isset($this->ShipToRegistrationCountry)){
-            $xml .= '<ShipToRegistrationCountry>'.$this->ShipToRegistrationCountry.'</ShipToRegistrationCountry>';
-        }
-        
-        // VerifiedUserRequirements
-        if(isset($this->VerifiedUserRequirements)){
-            $xml .= '<VerifiedUserRequirements>';
-            $xml .= $this->VerifiedUserRequirements->build();
-            $xml .= '</VerifiedUserRequirements>';
-        }
-        
-        // ZeroFeedbackScore
-        if(isset($this->ZeroFeedbackScore)){
-            $xml .= '<ZeroFeedbackScore>'.$this->ZeroFeedbackScore.'</ZeroFeedbackScore>';
-        }        
         
         return $xml;
     }
     
     /**
-     * LinkedPayPalAccount
+     * AttributeID
      * @access public
-     * @param boolean $LinkedPayPalAccount 
+     * @param int $AttributeID 
      */
-    public function LinkedPayPalAccount($LinkedPayPalAccount){
-        $this->LinkedPayPalAccount = $this->_get_boolean($LinkedPayPalAccount);
+    public function AttributeID($AttributeID){
+        $this->AttributeID = $AttributeID;
         return $this;
     }
     
     /**
-     * MaximumBuyerPolicyViolations
+     * DateFormat
      * @access public
-     * @param MaximumBuyerPolicyViolationsType $MaximumBuyerPolicyViolationsType [0..1]
+     * @param string $DateFormat 
      */
-    public function MaximumBuyerPolicyViolations($MaximumBuyerPolicyViolationsType){
-        $this->MaximumBuyerPolicyViolations = $MaximumBuyerPolicyViolationsType;
+    public function DateFormat($DateFormat){
+        $this->DateFormat = $DateFormat;
         return $this;
     }
     
     /**
-     * MaximumItemRequirements
+     * DisplaySequence
      * @access public
-     * @param MaximumItemRequirementsType $MaximumItemRequirementsType [0..1]
+     * @param string $DisplaySequence 
      */
-    public function MaximumItemRequirements($MaximumItemRequirementsType){
-        $this->MaximumItemRequirements = $MaximumItemRequirementsType;
+    public function DisplaySequence($DisplaySequence){
+        $this->DisplaySequence = $DisplaySequence;
         return $this;
     }
     
     /**
-     * MaximumUnpaidItemStrikesInfo
+     * DisplayUOM
      * @access public
-     * @param MaximumUnpaidItemStrikesInfoType $MaximumUnpaidItemStrikesInfoType [0..1]
+     * @param string $DisplayUOM 
      */
-    public function MaximumUnpaidItemStrikesInfo($MaximumUnpaidItemStrikesInfoType){
-        $this->MaximumUnpaidItemStrikesInfo = $MaximumUnpaidItemStrikesInfoType;
+    public function DisplayUOM($DisplayUOM){
+        $this->DisplayUOM = $DisplayUOM;
         return $this;
     }
     
     /**
-     * MinimumFeedbackScore
+     * Label
      * @access public
-     * @param int $MinimumFeedbackScore [0..1]
+     * @param LabelType $LabelType 
      */
-    public function MinimumFeedbackScore($MinimumFeedbackScore){
-        $this->MinimumFeedbackScore = $MinimumFeedbackScore;
+    public function Label($LabelType){
+        $this->Label = $LabelType;
         return $this;
     }
     
     /**
-     * ShipToRegistrationCountry
+     * SortOrder
      * @access public
-     * @param boolean $ShipToRegistrationCountry 
+     * @param SortOrderCodeType $SortOrder
+     * @link http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/types/SortOrderCodeType.html
      */
-    public function ShipToRegistrationCountry($ShipToRegistrationCountry){
-        $this->ShipToRegistrationCountry = $this->_get_boolean($ShipToRegistrationCountry);
+    public function SortOrder($SortOrder){
+        $this->SortOrder = $SortOrder;
         return $this;
     }
     
     /**
-     * VerifiedUserRequirements
+     * ValueList
      * @access public
-     * @param VerifiedUserRequirements $VerifiedUserRequirements [0..1]
+     * @param ValType[] $ValType 
      */
-    public function VerifiedUserRequirements($VerifiedUserRequirements){
-        $this->VerifiedUserRequirements = $VerifiedUserRequirements;
-        return $this;
-    }
-    
-    /**
-     * ZeroFeedbackScore
-     * @access public
-     * @param boolean $ZeroFeedbackScore 
-     */
-    public function ZeroFeedbackScore($ZeroFeedbackScore){
-        $this->ZeroFeedbackScore = $this->_get_boolean($ZeroFeedbackScore);
-        return $this;
-    }
-    
-     /**
-     * Returns 1/0 for boolean check
-     * @param string|boolean $field
-     * @return int 
-     */
-    private function _get_boolean($field){
-        
-        $boolean = '';
-        
-        if(is_bool($field)){
-            if($field){
-                $boolean =  '1';
-            } else {
-                $boolean = '0';
-            }
+    public function ValueList($ValType){
+        if(is_array($ValType)){
+            $this->ValueList = $ValType;
         } else {
-            if(strtolower($field) == 'true'){
-                $boolean = '1';
-            } else {
-                $boolean = '0';
-            }
+            $this->ValueList = array($ValType);
         }
-        
-        return $boolean;
+        return $this;
     }
+    
+    
 }
-
-?>

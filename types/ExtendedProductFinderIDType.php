@@ -6,22 +6,13 @@ namespace rearley\Ebay\Types;
  * Ebay API
  * @author Rick Earley <rick@earleyholdings.com>
  * @category Ebay API
- * @package BuyerRequirementDetailsType
+ * @package ExtendedProductFinderIDType
  */
-class BuyerRequirementDetailsType {
+class ExtendedProductFinderIDType {
     
     // Fields
-    private $LinkedPayPalAccount;
-    private $MinimumFeedbackScore;
-    private $ShipToRegistrationCountry;
-    private $VerifiedUserRequirements;
-    private $ZeroFeedbackScore;
-
-    // Types
-    private $MaximumBuyerPolicyViolations; // MaximumBuyerPolicyViolationsType
-    private $MaximumItemRequirements; // MaximumItemRequirementsType
-    private $MaximumUnpaidItemStrikesInfo; // MaximumUnpaidItemStrikesInfoType 
-    
+    private $ProductFinderBuySide;
+    private $ProductFinderID;
     
     /**
      * Builds XML
@@ -31,137 +22,40 @@ class BuyerRequirementDetailsType {
         
         $xml = FALSE;
         
-        // LinkedPayPalAccount
-        if(isset($this->LinkedPayPalAccount)){
-            $xml .= '<LinkedPayPalAccount>'.$this->LinkedPayPalAccount.'</LinkedPayPalAccount>';
+        // ProductFinderBuySide
+        if(isset($this->ProductFinderBuySide)){
+            $xml .= '<ProductFinderBuySide>'.$this->ProductFinderBuySide.'</ProductFinderBuySide>';
         }
         
-        // MaximumBuyerPolicyViolations
-        if(isset($this->MaximumBuyerPolicyViolations)){
-            $xml .= '<MaximumBuyerPolicyViolations>';
-            $xml .= $this->MaximumBuyerPolicyViolations->build();
-            $xml .= '</MaximumBuyerPolicyViolations>';
+        // ProductFinderID
+        if(isset($this->ProductFinderID)){
+            $xml .= '<ProductFinderID>'.$this->ProductFinderID.'</ProductFinderID>';
         }
         
-        // MaximumItemRequirements
-        if(isset($this->MaximumItemRequirements)){
-            
-            $xml .= '<MaximumItemRequirements>';
-            $xml .= $this->MaximumItemRequirements->build();            
-            $xml .= '</MaximumItemRequirements>';
-        }
-        
-        // MaximumUnpaidItemStrikesInfo
-        if(isset($this->MaximumUnpaidItemStrikesInfo)){
-            $xml .= '<MaximumUnpaidItemStrikesInfo>';
-            $xml .= $this->MaximumUnpaidItemStrikesInfo->build();
-            $xml .= '</MaximumUnpaidItemStrikesInfo>';
-        }
-        
-        // MinimumFeedbackScore
-        if(isset($this->MinimumFeedbackScore)){
-            $xml .= '<MinimumFeedbackScore>'.$this->MinimumFeedbackScore.'</MinimumFeedbackScore>';
-        }
-        
-        // ShipToRegistrationCountry
-        if(isset($this->ShipToRegistrationCountry)){
-            $xml .= '<ShipToRegistrationCountry>'.$this->ShipToRegistrationCountry.'</ShipToRegistrationCountry>';
-        }
-        
-        // VerifiedUserRequirements
-        if(isset($this->VerifiedUserRequirements)){
-            $xml .= '<VerifiedUserRequirements>';
-            $xml .= $this->VerifiedUserRequirements->build();
-            $xml .= '</VerifiedUserRequirements>';
-        }
-        
-        // ZeroFeedbackScore
-        if(isset($this->ZeroFeedbackScore)){
-            $xml .= '<ZeroFeedbackScore>'.$this->ZeroFeedbackScore.'</ZeroFeedbackScore>';
-        }        
         
         return $xml;
     }
     
     /**
-     * LinkedPayPalAccount
+     * ProductFinderBuySide
      * @access public
-     * @param boolean $LinkedPayPalAccount 
+     * @param boolean $ProductFinderBuySide 
      */
-    public function LinkedPayPalAccount($LinkedPayPalAccount){
-        $this->LinkedPayPalAccount = $this->_get_boolean($LinkedPayPalAccount);
+    public function ProductFinderBuySide($ProductFinderBuySide){
+        $this->ProductFinderBuySide = $this->_get_boolean($ProductFinderBuySide);
         return $this;
     }
     
     /**
-     * MaximumBuyerPolicyViolations
+     * ProductFinderID
      * @access public
-     * @param MaximumBuyerPolicyViolationsType $MaximumBuyerPolicyViolationsType [0..1]
+     * @param int $ProductFinderID 
      */
-    public function MaximumBuyerPolicyViolations($MaximumBuyerPolicyViolationsType){
-        $this->MaximumBuyerPolicyViolations = $MaximumBuyerPolicyViolationsType;
+    public function ProductFinderID($ProductFinderID){
+        $this->ProductFinderID = $ProductFinderID;
         return $this;
     }
-    
-    /**
-     * MaximumItemRequirements
-     * @access public
-     * @param MaximumItemRequirementsType $MaximumItemRequirementsType [0..1]
-     */
-    public function MaximumItemRequirements($MaximumItemRequirementsType){
-        $this->MaximumItemRequirements = $MaximumItemRequirementsType;
-        return $this;
-    }
-    
-    /**
-     * MaximumUnpaidItemStrikesInfo
-     * @access public
-     * @param MaximumUnpaidItemStrikesInfoType $MaximumUnpaidItemStrikesInfoType [0..1]
-     */
-    public function MaximumUnpaidItemStrikesInfo($MaximumUnpaidItemStrikesInfoType){
-        $this->MaximumUnpaidItemStrikesInfo = $MaximumUnpaidItemStrikesInfoType;
-        return $this;
-    }
-    
-    /**
-     * MinimumFeedbackScore
-     * @access public
-     * @param int $MinimumFeedbackScore [0..1]
-     */
-    public function MinimumFeedbackScore($MinimumFeedbackScore){
-        $this->MinimumFeedbackScore = $MinimumFeedbackScore;
-        return $this;
-    }
-    
-    /**
-     * ShipToRegistrationCountry
-     * @access public
-     * @param boolean $ShipToRegistrationCountry 
-     */
-    public function ShipToRegistrationCountry($ShipToRegistrationCountry){
-        $this->ShipToRegistrationCountry = $this->_get_boolean($ShipToRegistrationCountry);
-        return $this;
-    }
-    
-    /**
-     * VerifiedUserRequirements
-     * @access public
-     * @param VerifiedUserRequirements $VerifiedUserRequirements [0..1]
-     */
-    public function VerifiedUserRequirements($VerifiedUserRequirements){
-        $this->VerifiedUserRequirements = $VerifiedUserRequirements;
-        return $this;
-    }
-    
-    /**
-     * ZeroFeedbackScore
-     * @access public
-     * @param boolean $ZeroFeedbackScore 
-     */
-    public function ZeroFeedbackScore($ZeroFeedbackScore){
-        $this->ZeroFeedbackScore = $this->_get_boolean($ZeroFeedbackScore);
-        return $this;
-    }
+   
     
      /**
      * Returns 1/0 for boolean check
@@ -189,5 +83,3 @@ class BuyerRequirementDetailsType {
         return $boolean;
     }
 }
-
-?>

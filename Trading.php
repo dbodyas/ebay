@@ -66,11 +66,19 @@ class Trading {
     
     function __construct(){
         
-        spl_autoload_register(function($class){
+        spl_autoload_register(function($className){
             
-            $namespace_parts = explode('\\', $class);
-                        
-            include $namespace_parts[2].'/'.$namespace_parts[3].'.php';
+            $className = ltrim($className, '\\');
+            $fileName  = '';
+            $namespace = '';
+            if ($lastNsPos = strripos($className, '\\')) {
+                $namespace = substr($className, 0, $lastNsPos);
+                $className = substr($className, $lastNsPos + 1);
+                $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+            }
+            $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+            echo $fileName;
+            require $fileName;
             
         });
     }

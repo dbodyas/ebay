@@ -6,16 +6,11 @@ namespace rearley\Ebay\Types;
  * Ebay API
  * @author Rick Earley <rick@earleyholdings.com>
  * @category Ebay API
- * @package CategoryType
+ * @package LabelType
  */
-class CategoryType {
+class LabelType {
     
     // Fields
-    
-
-    // Types
-    private $CharacteristicsSets; // CharacteristicsSetType
-    private $ProductFinderIDs; // ExtendedProductFinderIDType
     
     /**
      * Builds XML
@@ -24,15 +19,10 @@ class CategoryType {
     public function build(){
         
         $xml = FALSE;
-        
-        
-        
         return $xml;
     }
     
-   
-    
-     /**
+      /**
      * Returns 1/0 for boolean check
      * @param string|boolean $field
      * @return int 

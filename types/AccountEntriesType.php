@@ -6,16 +6,12 @@ namespace rearley\Ebay\Types;
  * Ebay API
  * @author Rick Earley <rick@earleyholdings.com>
  * @category Ebay API
- * @package CategoryType
+ * @package AccountEntriesType
  */
-class CategoryType {
+class AccountEntriesType {
     
-    // Fields
-    
-
     // Types
-    private $CharacteristicsSets; // CharacteristicsSetType
-    private $ProductFinderIDs; // ExtendedProductFinderIDType
+    private $AccountEntry; // AccountEntryType
     
     /**
      * Builds XML
@@ -25,14 +21,33 @@ class CategoryType {
         
         $xml = FALSE;
         
-        
+        // AccountEntry
+        if(isset($this->AccountEntry)){
+            foreach($this->AccountEntry as $ae){
+                $xml .= '<AccountEntry>';
+                $xml .= $ae->build();
+                $xml .= '</AccountEntry>';
+            }
+        }
         
         return $xml;
     }
     
-   
+    /**
+     * AccountEntry
+     * @access public
+     * @param AccountEntryType[] $AccountEntryType 
+     */
+    public function AccountEntry($AccountEntryType){
+        if(is_array($AccountEntryType)){
+            $this->AccountEntry = $AccountEntryType;
+        } else {
+            $this->AccountEntry = array($AccountEntryType);
+        }
+        return $this;
+    }
     
-     /**
+      /**
      * Returns 1/0 for boolean check
      * @param string|boolean $field
      * @return int 
