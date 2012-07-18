@@ -55,7 +55,37 @@ class TradingCallReference {
     public function WarningLevel($WarningLevelCodeType){
         $this->WarningLevel = $WarningLevelCodeType;
         return $this;
-    }    
+    }
+    
+    /**
+     * Builds standard call values
+     * @return string 
+     */
+    protected function build_standard_call(){
+        $xml = FALSE;
+        
+        // ErrorLanguage
+        if(isset($this->ErrorLanguage)){
+            $xml .= '<ErrorLanguage>'.$this->ErrorLanguage.'</ErrorLanguage>';
+        }
+        
+        // MessageID
+        if(isset($this->MessageID)){
+            $xml .= '<MessageID>'.$this->MessageID.'</MessageID>';
+        }
+        
+        // Version
+        if(isset($this->Version)){
+            $xml .= '<Version>'.$this->Version.'</Version>';
+        }
+        
+        // WarningLevel
+        if(isset($this->WarningLevel)){
+            $xml .= '<WarningLevel>'.$this->WarningLevel.'</WarningLevel>';
+        }
+        
+        return $xml;
+    }
     
     /**
      * Returns 1/0 for boolean check
