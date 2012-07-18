@@ -507,6 +507,710 @@ class ItemType {
         
         return $xml;
     }
+    
+    /**
+     * ApplicationData
+     * @access public
+     * @param string $ApplicationData 
+     */
+    public function ApplicationData($ApplicationData){
+        $this->ApplicationData = $ApplicationData;
+        return $this;
+    }
+    
+    /**
+     * AutoPay
+     * @access public
+     * @param boolean $AutoPay 
+     */
+    public function AutoPay($AutoPay){
+        $this->AutoPay = $this->_get_boolean($AutoPay);
+        return $this;
+    }
+    
+    /**
+     * BuyerRequirementDetails
+     * @access public
+     * @param BuyerRequirementDetailsType $BuyerRequirementDetailsType 
+     */
+    public function BuyerRequirementDetails($BuyerRequirementDetailsType){
+        $this->BuyerRequirementDetails = $BuyerRequirementDetailsType;
+        return $this;
+    }
+    
+    /**
+     * CategoryBasedAttributesPrefill
+     * @access public
+     * @param boolean $CategoryBasedAttributesPrefill 
+     */
+    public function CategoryBasedAttributesPrefill($CategoryBasedAttributesPrefill){
+        $this->CategoryBasedAttributesPrefill = $CategoryBasedAttributesPrefill;
+        return $this;
+    }
+    
+    /**
+     * CategoryMappingAllowed
+     * @access public
+     * @param boolean $CategoryMappingAllowed 
+     */
+    public function CategoryMappingAllowed($CategoryMappingAllowed){
+        $this->CategoryMappingAllowed = $this->_get_boolean($CategoryMappingAllowed);
+        return $this;
+    }
+    
+    /**
+     * Charity
+     * @access public
+     * @param CharityType $CharityType 
+     */
+    public function Charity($CharityType){
+        $this->Charity = $CharityType;
+        return $this;
+    }
+    
+    /**
+     * ConditionID
+     * @access public
+     * @param int $ConditionID 
+     */
+    public function ConditionID($ConditionID){
+        $this->ConditionID = $ConditionID;
+        return $this;
+    }
+    
+    /**
+     * Country
+     * @access public
+     * @param (string)CountryCodeType $CountryCodeType 
+     */
+    public function Country($CountryCodeType){
+        $this->Country = $CountryCodeType;
+        return $this;
+    }
+    
+    /**
+     * CrossBorderTrade
+     * @access public
+     * @param string $CrossBorderTrade 
+     */
+    public function CrossBorderTrade($CrossBorderTrade){
+        $this->CrossBorderTrade = $CrossBorderTrade;
+        return $this;
+    }
+    
+    /**
+     * Currency
+     * @access public
+     * @param (string)CurrencyCodeType $CurrencyCodeType 
+     */
+    public function Currency($CurrencyCodeType){
+        $this->Currency = $CurrencyCodeType;
+        return $this;
+    }
+    
+    /**
+     * Description
+     * @access public
+     * @param string $Description 
+     */
+    public function Description($Description){
+        $this->Description = $Description;
+        return $this;
+    }
+    
+    /**
+     * DisableBuyerRequirements
+     * @access public
+     * @param boolean $DisableBuyerRequirements 
+     */
+    public function DisableBuyerRequirements($DisableBuyerRequirements){
+        $this->DisableBuyerRequirements = $DisableBuyerRequirements;
+        return $this;
+    }
+    
+    /**
+     * DiscountPriceInfo
+     * @access public
+     * @param DiscountPriceInfoType $DiscountPriceInfoType 
+     */
+    public function DiscountPriceInfo($DiscountPriceInfoType){
+        $this->DiscountPriceInfo = $DiscountPriceInfoType;
+        return $this;
+    }
+    
+    /**
+     * DispatchTimeMax
+     * @access public
+     * @param int $DispatchTimeMax 
+     */
+    public function DispatchTimeMax($DispatchTimeMax){
+        $this->DispatchTimeMax = $DispatchTimeMax;
+        return $this;
+    }
+    
+    /**
+     * ExternalProductID
+     * @access public
+     * @param ExternalProductIDType $ExternalProductIDType 
+     */
+    public function ExternalProductID($ExternalProductIDType){
+        $this->ExternalProductID = $ExternalProductIDType;
+        return $this;
+    }
+    
+    /**
+     * GetItFast
+     * @access public
+     * @param boolean $GetItFast 
+     */
+    public function GetItFast($GetItFast){
+        $this->GetItFast = $this->_get_boolean($GetItFast);
+        return $this;
+    }
+    
+    /**
+     * GiftIcon
+     * @access public
+     * @param int $GiftIcon 
+     */
+    public function GiftIcon($GiftIcon){
+        $this->GiftIcon = $GiftIcon;
+        return $this;
+    }
+    
+    /**
+     * GiftServices
+     * @access public
+     * @param (string)GiftServicesCodeType $GiftServicesCodeType 
+     */
+    public function GiftServices($GiftServicesCodeType){
+        $this->GiftServices = $GiftServicesCodeType;
+        return $this;
+    }
+    
+    /**
+     * HitCounter
+     * @access public
+     * @param (string)HitCounterCodeType $HitCounterCodeType 
+     */
+    public function HitCounter($HitCounterCodeType){
+        $this->HitCounter = $HitCounterCodeType;
+        return $this;
+    }
+    
+    /**
+     * InventoryTrackingMethod
+     * @access public
+     * @param (string)InventoryTrackingMethodCodeType $InventoryTrackingMethodCodeType 
+     */
+    public function InventoryTrackingMethod($InventoryTrackingMethodCodeType){
+        $this->InventoryTrackingMethod = $InventoryTrackingMethodCodeType;
+        return $this;
+    }
+    
+    /**
+     * ItemCompatibilityList
+     * @access public
+     * @param ItemCompatibilityListType $ItemCompatibilityListType 
+     */
+    public function ItemCompatibilityList($ItemCompatibilityListType){
+        $this->ItemCompatibilityList = $ItemCompatibilityListType;
+        return $this;
+    }
+    
+    /**
+     * ItemSpecifics
+     * @access public
+     * @param NameValueListArrayType $NameValueListArrayType 
+     */
+    public function ItemSpecifics($NameValueListArrayType){
+        $this->ItemSpecifics = $NameValueListArrayType;
+        return $this;
+    }
+    
+    /**
+     * ListingCheckoutRedirectPreference
+     * @access public
+     * @param ListingCheckoutRedirectPreferenceType $ListingCheckoutRedirectPreferenceType 
+     */
+    public function ListingCheckoutRedirectPreference($ListingCheckoutRedirectPreferenceType){
+        $this->ListingCheckoutRedirectPreference = $ListingCheckoutRedirectPreferenceType;
+        return $this;
+    }
+    
+    /**
+     * ListingDesigner
+     * @access public
+     * @param ListingDesignerType $ListingDesignerType 
+     */
+    public function ListingDesigner($ListingDesignerType){
+        $this->ListingDesigner = $ListingDesignerType;
+        return $this;
+    }
+    
+    /**
+     * ListingDetails
+     * @access public
+     * @param ListingDetailsType $ListingDetailsType
+     */
+    public function ListingDetails($ListingDetailsType){
+        $this->ListingDetails = $ListingDetailsType;
+        return $this;
+    }
+    
+    /**
+     * ListingDuration
+     * @access public
+     * @param string $ListingDuration 
+     */
+    public function ListingDuration($ListingDuration){
+        $this->ListingDuration = $ListingDuration;
+        return $this;
+    }
+    
+    /**
+     * ListingEnhancement
+     * @access public
+     * @param (array)ListingEnhancementCodeType $ListingEnhancementCodeType 
+     */
+    public function ListingEnhancement($ListingEnhancementCodeType){
+        if(is_array($ListingEnhancementCodeType)){
+            $this->ListingEnhancement = $ListingEnhancementCodeType;
+        } else {
+            $this->ListingEnhancement = array($ListingEnhancementCodeType);
+        }
+        return $this;
+    }
+    
+    /**
+     * ListingType
+     * @access public
+     * @param (string)ListingTypeCodeType $ListingTypeCodeType 
+     */
+    public function ListingType($ListingTypeCodeType){
+        $this->ListingType = $ListingTypeCodeType;
+        return $this;
+    }
+    
+    /**
+     * Location
+     * @access public
+     * @param string $Location 
+     */
+    public function Location($Location){
+        $this->Location = $Location;
+        return $this;
+    }
+    
+    /**
+     * LookupAttributeArray
+     * @access public
+     * @param LookupAttributeArrayType $LookupAttributeArrayType 
+     */
+    public function LookupAttributeArray($LookupAttributeArrayType){
+        $this->LookupAttributeArray = $LookupAttributeArrayType;
+        return $this;
+    }
+    
+    /**
+     * PaymentMethods
+     * @access public
+     * @param (array)PaymentMethodCodeType $PaymentMethodCodeType 
+     */
+    public function PaymentMethods($PaymentMethodCodeType){
+        if(is_array($PaymentMethodCodeType)){
+            $this->PaymentMethods = $PaymentMethodCodeType;
+        } else {
+            $this->PaymentMethods = array($PaymentMethodCodeType);
+        }
+        return $this;
+    }
+    
+    /**
+     * PayPalEmailAddress
+     * @access public
+     * @param string $PayPalEmailAddress 
+     */
+    public function PayPalEmailAddress($PayPalEmailAddress){
+        $this->PayPalEmailAddress = $PayPalEmailAddress;
+        return $this;
+    }
+    
+    /**
+     * PictureDetails
+     * @access public
+     * @param PictureDetailsType $PictureDetailsType 
+     */
+    public function PictureDetails($PictureDetailsType){
+        $this->PictureDetails = $PictureDetailsType;
+        return $this;
+    }
+    
+    /**
+     * PostalCode
+     * @access public
+     * @param string $PostalCode 
+     */
+    public function PostalCode($PostalCode){
+        $this->PostalCode = $PostalCode;
+        return $this;
+    }
+    
+    /**
+     * PostCheckoutExperienceEnabled
+     * @access public
+     * @param boolean $PostCheckoutExperienceEnabled 
+     */
+    public function PostCheckoutExperienceEnabled($PostCheckoutExperienceEnabled){
+        $this->PostCheckoutExperienceEnabled = $PostCheckoutExperienceEnabled;
+        return $this;
+    }
+    
+    /**
+     * PrimaryCategory
+     * @access public
+     * @param CategoryType $CategoryType 
+     */
+    public function PrimaryCategory($CategoryType){
+        $this->PrimaryCategory = $CategoryType;
+        return $this;
+    }
+    
+    /**
+     * PrivateListing
+     * @access public
+     * @param boolean $PrivateListing 
+     */
+    public function PrivateListing($PrivateListing){
+        $this->PrivateListing = $this->_get_boolean($PrivateListing);
+        return $this;
+    }
+    
+    /**
+     * PrivateNotes
+     * @access public
+     * @param string $PrivateNotes 
+     */
+    public function PrivateNotes($PrivateNotes){
+        $this->PrivateNotes = $PrivateNotes;
+        return $this;
+    }
+    
+    /**
+     * ProductListingDetails
+     * @access public
+     * @param ProductListingDetailsType $ProductListingDetailsType 
+     */
+    public function ProductListingDetails($ProductListingDetailsType){
+        $this->ProductListingDetails = $ProductListingDetailsType;
+        return $this;
+    }
+    
+    /**
+     * Quantity
+     * @access public
+     * @param int $Quantity 
+     */
+    public function Quantity($Quantity){
+        $this->Quantity = $Quantity;
+        return $this;
+    }
+    
+    /**
+     * QuantityInfo
+     * @access public
+     * @param QuantityInfoType $QuantityInfoType 
+     */
+    public function QuantityInfo($QuantityInfoType){
+        $this->QuantityInfo = $QuantityInfoType;
+        return $this;
+    }
+    
+    /**
+     * ReturnPolicy
+     * @access public
+     * @param ReturnPolicyType $ReturnPolicyType 
+     */
+    public function ReturnPolicy($ReturnPolicyType){
+        $this->ReturnPolicy = $ReturnPolicyType;
+        return $this;
+    }
+    
+    /**
+     * ScheduleTime
+     * @access public
+     * @param dateTime $ScheduleTime 
+     */
+    public function ScheduleTime($ScheduleTime){
+        $this->ScheduleTime = $ScheduleTime;
+        return $this;
+    }
+    
+    /**
+     * SecondaryCategory
+     * @access public
+     * @param CategoryType $CategoryType 
+     */
+    public function SecondaryCategory($CategoryType){
+        $this->SecondaryCategory = $CategoryType;
+        return $this;
+    }
+    
+    /**
+     * SellerProfiles
+     * @access public
+     * @param SellerProfilesType $SellerProfilesType 
+     */
+    public function SellerProfiles($SellerProfilesType){
+        $this->SellerProfiles = $SellerProfilesType;
+        return $this;
+    }
+    
+    /**
+     * SellerProvidedTitle
+     * @access public
+     * @param string $SellerProvidedTitle 
+     */
+    public function SellerProvidedTitle($SellerProvidedTitle){
+        $this->SellerProvidedTitle = $SellerProvidedTitle;
+        return $this;
+    }
+    
+    /**
+     * ShippingDetails
+     * @access public
+     * @param ShippingDetailsType $ShippingDetailsType 
+     */
+    public function ShippingDetails($ShippingDetailsType){
+        $this->ShippingDetails = $ShippingDetailsType;
+        return $this;
+    }
+    
+    /**
+     * ShippingPackageDetails
+     * @access public
+     * @param ShipPackageDetailsType $ShipPackageDetailsType 
+     */
+    public function ShippingPackageDetails($ShipPackageDetailsType){
+        $this->ShippingPackageDetails = $ShipPackageDetailsType;
+        return $this;
+    }
+    
+    /**
+     * ShippingTermsInDescription
+     * @access public
+     * @param boolean $ShippingTermsInDescription 
+     */
+    public function ShippingTermsInDescription($ShippingTermsInDescription){
+        $this->ShippingTermsInDescription = $ShippingTermsInDescription;
+        return $this;
+    }
+    
+    /**
+     * ShipToLocations
+     * @access public
+     * @param string $ShipToLocations 
+     */
+    public function ShipToLocations($ShipToLocations){
+        $this->ShipToLocations = $ShipToLocations;
+        return $this;
+    }
+    
+    /**
+     * Site
+     * @access public
+     * @param (string)SiteCodeType $SiteCodeType 
+     */
+    public function Site($SiteCodeType){
+        $this->Site = $SiteCodeType;
+        return $this;
+    }
+    
+    /**
+     * SKU
+     * @access public
+     * @param string $SKU 
+     */
+    public function SKU($SKU){
+        $this->SKU = $SKU;
+        return $this;
+    }
+    
+    /**
+     * SkypeContactOption
+     * @access public
+     * @param (array)SkypeContactOptionCodeType $SkypeContactOptionCodeType 
+     */
+    public function SkypeContactOption($SkypeContactOptionCodeType){
+        if(is_array($SkypeContactOptionCodeType)){
+            $this->SkypeContactOption = $SkypeContactOptionCodeType;
+        } else {
+            $this->SkypeContactOption = array($SkypeContactOptionCodeType);
+        }
+        return $this;
+    }
+    
+    /**
+     * SkypeEnabled
+     * @access public
+     * @param boolean $SkypeEnabled 
+     */
+    public function SkypeEnabled($SkypeEnabled){
+        $this->SkypeEnabled = $this->_get_boolean($SkypeEnabled);
+        return $this;
+    }
+    
+    /**
+     * SkypeID
+     * @access public
+     * @param string $SkypeID 
+     */
+    public function SkypeID($SkypeID){
+        $this->SkypeID = $SkypeID;
+        return $this;
+    }
+    
+    /**
+     * StartPrice
+     * @access public
+     * @param double $StartPrice
+     * @param (string)CurrencyCodeType  $AmountType 
+     */
+    public function StartPrice($StartPrice,$AmountType = 'USD'){
+        $this->StartPrice = $StartPrice;
+        $this->StartPrice_AmountType = $AmountType;
+        return $this;
+    }
+    
+    /**
+     * Storefront
+     * @access public
+     * @param StorefrontType $StorefrontType 
+     */
+    public function Storefront($StorefrontType){
+        $this->Storefront = $StorefrontType;
+        return $this;
+    }
+    
+    /**
+     * SubTitle
+     * @acess public
+     * @param string $SubTitle 
+     */
+    public function SubTitle($SubTitle){
+        $this->SubTitle = $SubTitle;
+        return $this;
+    }
+    
+    /**
+     * TaxCategory
+     * @access public
+     * @param string $TaxCategory 
+     */
+    public function TaxCategory($TaxCategory){
+        $this->TaxCategory = $TaxCategory;
+        return $this;
+    }
+    
+    /**
+     * ThirdPartyCheckout
+     * @access public
+     * @param boolean $ThirdPartyCheckout 
+     */
+    public function ThirdPartyCheckout($ThirdPartyCheckout){
+        $this->ThirdPartyCheckout = $this->_get_boolean($ThirdPartyCheckout);
+        return $this;        
+    }
+    
+    /**
+     * ThirdPartyCheckoutIntegration
+     * @access public
+     * @param boolean $ThirdPartyCheckoutIntegration 
+     */
+    public function ThirdPartyCheckoutIntegration($ThirdPartyCheckoutIntegration){
+        $this->ThirdPartyCheckoutIntegration = $this->_get_boolean($ThirdPartyCheckoutIntegration);
+        return $this;
+    }
+    
+    /**
+     * Title
+     * @access public
+     * @param string $Title 
+     */
+    public function Title($Title){
+        $this->Title = $Title;
+        return $this;
+    }
+    
+    /**
+     * UseRecommendedProduct
+     * @access public
+     * @param boolean $UseRecommendedProduct 
+     */
+    public function UseRecommendedProduct($UseRecommendedProduct){
+        $this->UseRecommendedProduct = $this->_get_boolean($UseRecommendedProduct);
+        return $this;
+    }
+    
+    /**
+     * UseTaxTable
+     * @access public
+     * @param boolean $UseTaxTable 
+     */
+    public function UseTaxTable($UseTaxTable){
+        $this->UseTaxTable = $this->_get_boolean($UseTaxTable);
+        return $this;
+    }
+    
+    /**
+     * UUID
+     * @access public
+     * @param string $UUID 
+     */
+    public function UUID($UUID){
+        $this->UUID = $UUID;
+        return $this;
+    }
+    
+    /**
+     * Variations
+     * @access public
+     * @param VariationsType $Variations 
+     */
+    public function Variations($Variations){
+        $this->Variations = $Variations;
+        return $this;
+    }
+    
+    /**
+     * VATDetails
+     * @access public
+     * @param VATDetailsType $VATDetailsType 
+     */
+    public function VATDetails($VATDetailsType){
+        $this->VATDetails = $VATDetailsType;
+        return $this;
+    }
+    
+    /**
+     * VIN
+     * @access public
+     * @param string $VIN 
+     */
+    public function VIN($VIN){
+        $this->VIN = $VIN;
+        return $this;
+    }
+    
+    /**
+     * VRM
+     * @access public
+     * @param string $VRM 
+     */
+    public function VRM($VRM){
+        $this->VRM = $VRM;
+        return $this;
+    }
 
     /**
      * Returns 1/0 for boolean check
