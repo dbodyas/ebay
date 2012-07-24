@@ -4,7 +4,7 @@ The goal for this API is to make a reliable PHP class to communicate with the fi
 
 Important Note
 ==============
-The library is still under developerment and at this time only the Finding API has been implemented. The documentation is a work in progress and will be updated as we move along in developerment.
+The library is still under development and at this time only the Finding API has been implemented. The documentation is a work in progress and will be updated as we move along in development.
 
 Finding API
 ===========
