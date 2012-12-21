@@ -228,7 +228,7 @@ class Finding {
         // Close Request
         $request .= "</findCompletedItemsRequest>\n";
         
-        echo $request;
+
                       
         // Send Request
         if($this->_send($this->url, $this->headers, $request)){
@@ -304,7 +304,7 @@ class Finding {
         // Close Request
         $request .= "</findItemsAdvancedRequest>\n";
         
-        echo $request;
+
                       
         // Send Request
         if($this->_send($this->url, $this->headers, $request)){
@@ -363,7 +363,7 @@ class Finding {
         // Close Request
         $request .= "</findItemsByCategoryRequest>\n";
         
-        echo $request;
+
                       
         // Send Request
         if($this->_send($this->url, $this->headers, $request)){
@@ -428,7 +428,7 @@ class Finding {
         // Close Request
         $request .= "</findItemsByImageRequest>\n";
         
-        echo $request;
+
                       
         // Send Request
         if($this->_send($this->url, $this->headers, $request)){
@@ -473,7 +473,7 @@ class Finding {
         // Close Request
         $request .= "</findItemsByProductRequest>\n";
         
-        echo $request;
+
                       
         // Send Request
         if($this->_send($this->url, $this->headers, $request)){
@@ -536,7 +536,7 @@ class Finding {
         // Close Request
         $request .= "</findItemsByKeywordsRequest>\n";
         
-        echo $request;
+
                       
         // Send Request
         if($this->_send($this->url, $this->headers, $request)){
@@ -608,7 +608,7 @@ class Finding {
         // Close Request
         $request .= "</findItemsIneBayStoresRequest>\n";
         
-        echo $request;
+
                       
         // Send Request
         if($this->_send($this->url, $this->headers, $request)){
