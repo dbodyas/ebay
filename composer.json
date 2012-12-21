@@ -1,9 +1,9 @@
 {
-    "name": "rearley/Ebay",
+    "name": "bodya-dnepr/ebay",
     "type":"library",
     "description":"Provides a method to communicate with eBay's Finding, Shopping and Trading API. Version 0.1.6 only supports the Finding API.",
-    "keywords":["ebay","api"],
-    "homepage":"https://github.com/bodya-dnepr/eBay",
+    "keywords":["ebay","api","php"],
+    "homepage":"https://github.com/bodya-dnepr/ebay",
     "authors":[
         {
             "name":"Rick Earley",
