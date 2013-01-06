@@ -53,7 +53,7 @@ class Trading {
     private $site_code = array(
         'site_id'=>'0',
         'abbreviation'=>'US',
-        'curreny'=>'USD'
+        'currency'=>'USD'
     ); //http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/types/SiteCodeType.html
     
     
