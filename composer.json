@@ -10,12 +10,6 @@
             "email":"rick@earleyholdings.com",
             "homepage":"",
             "role":"Developer"
-        },
-        {
-            "name":"Bogdan Derevenets",
-            "email":"b.derevenets@111minutes.com",
-            "homepage":"",
-            "role":"Developer"
         }
     ],
     "require":{
