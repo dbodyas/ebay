@@ -907,6 +907,15 @@ class Finding {
         
         $this->storeName = trim($storeName);
     }
+    
+    /**
+     * Set global id
+     * 
+     * @param type $globalId
+     */
+    public function set_global_id($globalId){
+        $this->global_id = trim($globalId);
+    }
         
     /**
      * Processes and Creates the XML string for the standard options
